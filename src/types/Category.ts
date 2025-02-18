@@ -1,5 +1,10 @@
-// TODO: actually match the category data with Showside
+export type onClick = () => void
 
 export type Category = {
-	title: string
+	title: string,
+	description: string,
+	image?: string,
+	video?: string,
+	onClick?: onClick,
+	children: Category[]
 }
