@@ -5,6 +5,7 @@ export const CustomProductCard = () => {
 	return (
 		<RegisteredComponent contentType='product' UUID="product-card">
 			{(product) => {
+				// This where all the magic happens
 				return (
 					<div>
 						<div>
