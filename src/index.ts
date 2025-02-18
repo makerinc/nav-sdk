@@ -1,0 +1,1 @@
+export { useCategory, useProduct } from './hooks/use-content'
