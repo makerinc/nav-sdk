@@ -9,6 +9,7 @@
     "build": "tsc -b",
     "lint": "eslint .",
     "preview": "vite preview",
+    "prepare": "yarn build",
     "build-examples": "yarn esbuild examples/builder/CustomProductCard.tsx --bundle --minify --outfile=examples/builder/CustomProductCard.js --jsx=automatic --format=esm --platform=browser --external:react --external:react-dom"
   },
   "dependencies": {

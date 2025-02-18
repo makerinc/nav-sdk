@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactElement } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = {
 	url: string;
