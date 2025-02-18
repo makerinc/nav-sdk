@@ -6,7 +6,7 @@ import { mockProducts } from './mock'
 ReactDOM.render(
 	<React.StrictMode>
 		{mockProducts.map((product) =>
-			<Renderer key={product.id} UUID={"product-card"} data={product} fallback={<div>No component found for UUID: product-card</div>} />
+			<Renderer key={product.id} componentId={"product-card"} data={product} fallback={<div>No component found for componentId: product-card</div>} />
 		)}
 		<RemoteComponent url="/examples/builder/CustomProductCard.js" />
 	</React.StrictMode>,

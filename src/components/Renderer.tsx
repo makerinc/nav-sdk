@@ -4,20 +4,20 @@ import { Product, Category } from '../types';
 import { registry } from '../util/registry';
 
 type RendererProps = {
-	UUID: string;
+	componentId: string;
 	data: Product | Category;
 	fallback: ReactElement;
 };
 
 export function Renderer({
-	UUID,
+	componentId,
 	data,
 	fallback
 }: RendererProps) {
-	const [Component, setComponent] = useState(() => registry.getComponent(UUID))
+	const [Component, setComponent] = useState(() => registry.getComponent(componentId))
 
 	let refreshComponent = (_: any) => {
-		setComponent(() => registry.getComponent(UUID))
+		setComponent(() => registry.getComponent(componentId))
 	}
 
 	useEffect(() => {
@@ -26,7 +26,7 @@ export function Renderer({
 		() => {
 			window.removeEventListener('maker-nav-component-registered', refreshComponent)
 		}
-	}, [UUID, data])
+	}, [componentId, data])
 
 	if (!Component) {
 		return fallback;

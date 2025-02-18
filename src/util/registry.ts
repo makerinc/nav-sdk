@@ -6,11 +6,11 @@ declare global {
 		__MAKER_NAV_COMPONENT_REGISTRY__?: {
 			register: <T extends ContentType>(
 				contentType: T,
-				UUID: string,
+				componentId: string,
 				component: React.ComponentType<any>
 			) => void;
-			unregister: (UUID: string) => void;
-			get: (UUID: string) => React.ComponentType<any> | undefined;
+			unregister: (componentId: string) => void;
+			get: (componentId: string) => React.ComponentType<any> | undefined;
 		};
 	}
 }
@@ -30,10 +30,10 @@ class ComponentRegistry {
 			window.__MAKER_NAV_COMPONENT_REGISTRY__ = {
 				register: <T extends ContentType>(
 					contentType: T,
-					UUID: string,
+					componentId: string,
 					component: React.ComponentType<any>
 				) => {
-					this.components.set(UUID, {
+					this.components.set(componentId, {
 						contentType,
 						component
 					});
@@ -41,35 +41,35 @@ class ComponentRegistry {
 					if (!this.contentTypeMap.has(contentType)) {
 						this.contentTypeMap.set(contentType, new Set());
 					}
-					this.contentTypeMap.get(contentType)!.add(UUID);
+					this.contentTypeMap.get(contentType)!.add(componentId);
 
 					window.dispatchEvent(
 						new CustomEvent('maker-nav-component-registered', {
-							detail: { contentType, UUID }
+							detail: { contentType, componentId }
 						})
 					);
 				},
-				unregister: (UUID: string) => {
-					const component = this.components.get(UUID);
+				unregister: (componentId: string) => {
+					const component = this.components.get(componentId);
 					if (component) {
 						const typeSet = this.contentTypeMap.get(component.contentType);
 						if (typeSet) {
-							typeSet.delete(UUID);
+							typeSet.delete(componentId);
 							if (typeSet.size === 0) {
 								this.contentTypeMap.delete(component.contentType);
 							}
 						}
-						this.components.delete(UUID);
+						this.components.delete(componentId);
 
 						window.dispatchEvent(
 							new CustomEvent('maker-nav-component-unregistered', {
-								detail: { UUID }
+								detail: { componentId }
 							})
 						);
 					}
 				},
-				get: (UUID: string) => {
-					return this.components.get(UUID)?.component;
+				get: (componentId: string) => {
+					return this.components.get(componentId)?.component;
 				}
 			};
 		}
@@ -84,32 +84,32 @@ class ComponentRegistry {
 
 	public register<T extends ContentType>(
 		contentType: T,
-		UUID: string,
+		componentId: string,
 		component: React.ComponentType<any>
 	): void {
 		if (this.isRegistryAvailable()) {
-			window.__MAKER_NAV_COMPONENT_REGISTRY__!.register(contentType, UUID, component);
+			window.__MAKER_NAV_COMPONENT_REGISTRY__!.register(contentType, componentId, component);
 		}
 	}
 
-	public unregister(UUID: string): void {
+	public unregister(componentId: string): void {
 		if (this.isRegistryAvailable()) {
-			window.__MAKER_NAV_COMPONENT_REGISTRY__!.unregister(UUID);
+			window.__MAKER_NAV_COMPONENT_REGISTRY__!.unregister(componentId);
 		}
 	}
 
-	public getComponent(UUID: string): React.ComponentType<any> | undefined {
-		return this.components.get(UUID)?.component;
+	public getComponent(componentId: string): React.ComponentType<any> | undefined {
+		return this.components.get(componentId)?.component;
 	}
 
 	public getComponentsByType(contentType: ContentType): Array<{
-		UUID: string;
+		componentId: string;
 		component: React.ComponentType<any>;
 	}> {
-		const UUIDs = this.contentTypeMap.get(contentType) || new Set();
-		return Array.from(UUIDs).map(UUID => ({
-			UUID,
-			component: this.components.get(UUID)!.component
+		const componentIds = this.contentTypeMap.get(contentType) || new Set();
+		return Array.from(componentIds).map(componentId => ({
+			componentId,
+			component: this.components.get(componentId)!.component
 		}));
 	}
 

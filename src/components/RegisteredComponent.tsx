@@ -9,7 +9,7 @@ type ContentDataType<T extends ContentType> =
 
 type Props<T extends ContentType> = {
 	contentType: T;
-	UUID: string;
+	componentId: string;
 	children: (content: ContentDataType<T>) => ReactElement;
 }
 
@@ -19,7 +19,7 @@ type InternalProps = {
 
 export function RegisteredComponent<T extends ContentType>({
 	contentType,
-	UUID,
+	componentId,
 	children
 }: Props<T>): null {
 
@@ -29,12 +29,12 @@ export function RegisteredComponent<T extends ContentType>({
 
 	useEffect(() => {
 		if (registry.isRegistryAvailable()) {
-			registry.register(contentType, UUID, Component);
+			registry.register(contentType, componentId, Component);
 			return () => {
-				registry.unregister(UUID);
+				registry.unregister(componentId);
 			};
 		}
-	}, [contentType, UUID]);
+	}, [contentType, componentId]);
 
 	return null;
 }

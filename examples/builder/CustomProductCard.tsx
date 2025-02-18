@@ -3,7 +3,7 @@ import { RegisteredComponent } from '../../src/index'
 
 export default () => {
 	return (
-		<RegisteredComponent contentType='product' UUID="product-card">
+		<RegisteredComponent contentType='product' componentId="product-card">
 			{(product) => {
 				// This where all the magic happens
 				return (
