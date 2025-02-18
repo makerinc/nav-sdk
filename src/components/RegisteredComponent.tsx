@@ -1,22 +1,21 @@
 import { ReactElement } from 'react';
-import { Product, Category } from '../types/index';
+import { Product, Category, ContentType } from '../types/index';
 import { useContent } from '../hooks/use-content';
 import { useRegisterer } from '../hooks/use-registerer';
 
-type ValidContentType = 'product' | 'category';
 
-type ContentDataType<T extends ValidContentType> =
+type ContentDataType<T extends ContentType> =
 	T extends 'product' ? Product :
 	T extends 'category' ? Category :
 	never;
 
-type Props<T extends ValidContentType> = {
+type Props<T extends ContentType> = {
 	contentType: T;
 	UUID: string;
 	children: (content: ContentDataType<T>) => ReactElement;
 }
 
-export function RegisteredComponent<T extends ValidContentType>({
+export function RegisteredComponent<T extends ContentType>({
 	contentType,
 	UUID,
 	children
