@@ -1,12 +1,12 @@
 import React from 'react'
-import { ContentProvider, Renderer } from '../../src/index'
+import { Renderer } from '../../src/index'
 import { mockProducts } from './mock'
 
 
 export const DataLayer = () => {
 	return <>
-		{mockProducts.map((product) => <ContentProvider key={product.id} product={product}>
-			<Renderer UUID={"product-card"} data={product} fallback={<div>No component found for UUID: product-card</div>} />
-		</ContentProvider>)}
+		{mockProducts.map((product) =>
+			<Renderer key={product.id} UUID={"product-card"} data={product} fallback={<div>No component found for UUID: product-card</div>} />
+		)}
 	</>
 }

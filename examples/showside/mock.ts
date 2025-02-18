@@ -3,7 +3,7 @@ import { Product } from '../../src/types'
 export const mockProducts: Product[] = [
 	{
 		id: "1",
-		name: "Product 1",
+		name: "Product 243345",
 		variants: [
 			{
 				name: "Variant 1",
