@@ -1,7 +1,7 @@
 import { useEffect, useState, ReactElement } from 'react';
 
 import { Product, Category } from '../types';
-import { registry } from '../types/Registry';
+import { registry } from '../util/registry';
 
 type RendererProps = {
 	UUID: string;
