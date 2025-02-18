@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "tsc -b",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-examples": "yarn esbuild examples/builder/CustomProductCard.tsx --bundle --minify --outfile=examples/builder/CustomProductCard.js --jsx=automatic --format=esm --platform=browser --external:react --external:react-dom"
   },
   "dependencies": {
     "react": "^16.14.0",

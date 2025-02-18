@@ -14,6 +14,7 @@ export default () => {
 						<div>
 							{product.variants[0].price}
 						</div>
+						<button>Add To Cart</button>
 					</div>
 				)
 			}}

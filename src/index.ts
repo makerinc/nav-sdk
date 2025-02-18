@@ -4,4 +4,4 @@ export { RegisteredComponent } from './components/RegisteredComponent'
 
 // For showside
 export { Renderer } from './components/Renderer'
-export { RemoteComponent } from './components/RemoteComponent'
+export { ComponentLoader } from './components/ComponentLoader'
