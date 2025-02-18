@@ -1,5 +1,5 @@
 import { ReactElement, useEffect } from 'react';
-import { Product, Category, ContentType, Content } from '../types/index';
+import { Product, Category, ContentType } from '../types/index';
 import { registry } from '../types/Registry';
 
 type ContentDataType<T extends ContentType> =

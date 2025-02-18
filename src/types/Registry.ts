@@ -44,7 +44,7 @@ class ComponentRegistry {
 					this.contentTypeMap.get(contentType)!.add(UUID);
 
 					window.dispatchEvent(
-						new CustomEvent('component-registered', {
+						new CustomEvent('maker-nav-component-registered', {
 							detail: { contentType, UUID }
 						})
 					);
@@ -62,7 +62,7 @@ class ComponentRegistry {
 						this.components.delete(UUID);
 
 						window.dispatchEvent(
-							new CustomEvent('component-unregistered', {
+							new CustomEvent('maker-nav-component-unregistered', {
 								detail: { UUID }
 							})
 						);

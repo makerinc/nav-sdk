@@ -6,9 +6,9 @@ import { DataLayer } from './consumer/DataLayer.tsx'
 
 ReactDOM.render(
 	<React.StrictMode>
+		<DataLayer />
 		<CustomProductCard />
 		<CustomProductCard2 />
-		<DataLayer />
 	</React.StrictMode>,
 	document.getElementById('root')
 )
