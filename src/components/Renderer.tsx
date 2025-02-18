@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactElement } from 'react';
 
 import { Product, Category } from '../types';
 import { registry } from '../types/Registry';
@@ -6,11 +6,13 @@ import { registry } from '../types/Registry';
 type RendererProps = {
 	UUID: string;
 	data: Product | Category;
+	fallback: ReactElement;
 };
 
 export function Renderer({
 	UUID,
-	data
+	data,
+	fallback
 }: RendererProps) {
 	const [Component, setComponent] = useState(() => registry.getComponent(UUID))
 
@@ -27,7 +29,7 @@ export function Renderer({
 	}, [UUID, data])
 
 	if (!Component) {
-		return <div>No component found for UUID: {UUID}</div>;
+		return fallback;
 	}
 
 	return <Component data={data} />;
