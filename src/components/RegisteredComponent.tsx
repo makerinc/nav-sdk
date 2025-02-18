@@ -24,10 +24,7 @@ export function RegisteredComponent<T extends ContentType>({
 }: Props<T>): null {
 
 	const Component = ({ data }: InternalProps) => {
-
-		const element = children(data as ContentDataType<T>);
-
-		return element;
+		return children(data as ContentDataType<T>);
 	}
 
 	useEffect(() => {
