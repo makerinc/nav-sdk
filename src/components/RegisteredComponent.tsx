@@ -1,6 +1,5 @@
 import { ReactElement, useEffect } from 'react';
-import { Product, Category, ContentType } from '../types/index';
-import { useContent } from '../hooks/use-content';
+import { Product, Category, ContentType, Content } from '../types/index';
 import { registry } from '../types/Registry';
 
 type ContentDataType<T extends ContentType> =
@@ -14,29 +13,31 @@ type Props<T extends ContentType> = {
 	children: (content: ContentDataType<T>) => ReactElement;
 }
 
+type InternalProps = {
+	data: Product | Category | null
+}
+
 export function RegisteredComponent<T extends ContentType>({
 	contentType,
 	UUID,
 	children
-}: Props<T>): ReactElement {
-	const content = useContent();
+}: Props<T>): null {
 
-	if (contentType !== content.type) {
-		throw new Error('Content type does not match registered component');
+	const Component = ({ data }: InternalProps) => {
+
+		const element = children(data as ContentDataType<T>);
+
+		return element;
 	}
-
-	const element = children(content.data as ContentDataType<T>);
 
 	useEffect(() => {
 		if (registry.isRegistryAvailable()) {
-			const Component = () => element;
 			registry.register(contentType, UUID, Component);
-
 			return () => {
 				registry.unregister(UUID);
 			};
 		}
 	}, [contentType, UUID]);
 
-	return element;
+	return null;
 }

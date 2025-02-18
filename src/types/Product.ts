@@ -5,6 +5,7 @@ export type Variant = {
 }
 
 export type Product = {
+	id: string
 	name: string
 	variants: Variant[]
 }
