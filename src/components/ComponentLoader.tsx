@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import imported from 'react-imported-component';
+
 
 type Props = {
 	url: string;
@@ -6,22 +7,12 @@ type Props = {
 };
 
 export function ComponentLoader({ url, props = {} }: Props) {
-	const [Component, setComponent] = useState<React.ComponentType<any> | null>(null);
 
-	useEffect(() => {
-		async function loadComponent() {
-			const module = await import(url);
-			if (module.default.prototype?.isReactComponent) {
-				setComponent(() => module.default);
-			} else {
-				setComponent(() => (props: any) => module.default(props));
-			}
-		}
+	const RemoteComponent = imported(() =>
+		import(url)
+	);
 
-		loadComponent();
-	}, [url]);
-
-	if (!Component) return null;
-
-	return <Component {...props} />;
+	return (
+		<RemoteComponent {...props} />
+	);
 }

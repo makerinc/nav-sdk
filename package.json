@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+    "react-dom": "^16.14.0",
+    "react-imported-component": "^6.5.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
