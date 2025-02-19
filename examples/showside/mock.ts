@@ -4,7 +4,7 @@ export const mockProducts: Product[] = [
 	{
 		id: "1",
 		name: "Product 243345",
-		variants: [
+		otherVariants: [
 			{
 				name: "Variant 1",
 				price: "USD 10.00",
@@ -15,7 +15,7 @@ export const mockProducts: Product[] = [
 	{
 		id: "2",
 		name: "Product 2",
-		variants: [
+		otherVariants: [
 			{
 				name: "Variant 1",
 				price: "USD 1.00",

@@ -12,10 +12,6 @@ export const Component = (props: Props) => {
 			<div>
 				{props.data.name}
 			</div>
-			<div>
-				{props.data.otherVariants[0].price}
-			</div>
-			<button>Add To Cart</button>
 		</div>
 	)
 }
