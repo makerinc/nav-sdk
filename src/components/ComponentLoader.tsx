@@ -15,27 +15,22 @@ export function ComponentLoader({ url, props = {} }: Props) {
 				const response = await fetch(url);
 				const jsCode = await response.text();
 
-				// Convert the JavaScript code into an executable ES module
-				const blob = new Blob([jsCode], { type: "application/javascript" });
-				const blobURL = URL.createObjectURL(blob);
-
-				// Dynamically import the compiled module
-				const module = await import(blobURL);
+				// Wrap the code in a function so it can be evaluated
+				const module: any = {};
+				// eslint-disable-next-line no-new-func
+				new Function("module", "exports", jsCode)(module, module);
 
 				// Check if the module exports a valid React component
-				if (typeof module.default === "function") {
-					setComponent(() => module.default);
+				if (typeof module.exports?.default === "function") {
+					setComponent(() => module.exports.default);
 				} else {
 					console.error("Loaded module is not a valid React component");
 				}
-
-				// Cleanup blob URL after use
-				URL.revokeObjectURL(blobURL);
 			} catch (error) {
 				console.error("Failed to load remote component:", error);
 			}
 		})();
-	}, [url]); // Re-run if `url` changes
+	}, [url]);
 
 	return <div>{Component ? <Component {...props} /> : <p>Loading...</p>}</div>;
 }
