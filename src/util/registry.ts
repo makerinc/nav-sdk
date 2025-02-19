@@ -26,53 +26,64 @@ class ComponentRegistry {
 	private contentTypeMap = new Map<ContentType, Set<string>>();
 
 	private constructor() {
-		if (typeof window !== 'undefined' && !window.__MAKER_NAV_COMPONENT_REGISTRY__) {
-			window.__MAKER_NAV_COMPONENT_REGISTRY__ = {
-				register: <T extends ContentType>(
-					contentType: T,
-					componentId: string,
-					component: React.ComponentType<any>
-				) => {
-					this.components.set(componentId, {
-						contentType,
-						component
-					});
+		if (typeof window === 'undefined') {
+			return;
+		}
+		if (typeof document === 'undefined') {
+			return;
+		}
 
-					if (!this.contentTypeMap.has(contentType)) {
-						this.contentTypeMap.set(contentType, new Set());
+		let script = document.createElement('script');
+		script.innerHTML = `{"imports":{"react":"https://esm.sh/react@16.14.0","react-dom":"https://esm.sh/react@16.14.0","react/jsx-runtime":"https://esm.sh/react@16.14.0/jsx-runtime"}}`
+		script.type = "importmap"
+		document.body.appendChild(script);
+
+		window.__MAKER_NAV_COMPONENT_REGISTRY__ = {
+			register: <T extends ContentType>(
+				contentType: T,
+				componentId: string,
+				component: React.ComponentType<any>
+			) => {
+				this.components.set(componentId, {
+					contentType,
+					component
+				});
+
+				if (!this.contentTypeMap.has(contentType)) {
+					this.contentTypeMap.set(contentType, new Set());
+				}
+				this.contentTypeMap.get(contentType)!.add(componentId);
+
+				window.dispatchEvent(
+					new CustomEvent('maker-nav-component-registered', {
+						detail: { contentType, componentId }
+					})
+				);
+			},
+			unregister: (componentId: string) => {
+				const component = this.components.get(componentId);
+				if (component) {
+					const typeSet = this.contentTypeMap.get(component.contentType);
+					if (typeSet) {
+						typeSet.delete(componentId);
+						if (typeSet.size === 0) {
+							this.contentTypeMap.delete(component.contentType);
+						}
 					}
-					this.contentTypeMap.get(contentType)!.add(componentId);
+					this.components.delete(componentId);
 
 					window.dispatchEvent(
-						new CustomEvent('maker-nav-component-registered', {
-							detail: { contentType, componentId }
+						new CustomEvent('maker-nav-component-unregistered', {
+							detail: { componentId }
 						})
 					);
-				},
-				unregister: (componentId: string) => {
-					const component = this.components.get(componentId);
-					if (component) {
-						const typeSet = this.contentTypeMap.get(component.contentType);
-						if (typeSet) {
-							typeSet.delete(componentId);
-							if (typeSet.size === 0) {
-								this.contentTypeMap.delete(component.contentType);
-							}
-						}
-						this.components.delete(componentId);
-
-						window.dispatchEvent(
-							new CustomEvent('maker-nav-component-unregistered', {
-								detail: { componentId }
-							})
-						);
-					}
-				},
-				get: (componentId: string) => {
-					return this.components.get(componentId)?.component;
 				}
-			};
-		}
+			},
+			get: (componentId: string) => {
+				return this.components.get(componentId)?.component;
+			}
+		};
+
 	}
 
 	public static getInstance(): ComponentRegistry {
