@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Renderer, ComponentLoader } from '../../src/index'
+import { Renderer, ComponentLoader } from '../../index'
 import { mockProducts } from './mock'
 
 ReactDOM.render(
