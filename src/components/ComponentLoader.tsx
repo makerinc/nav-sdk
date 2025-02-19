@@ -1,36 +1,27 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 type Props = {
 	url: string;
-	props?: Record<string, any>;
 };
 
-export function ComponentLoader({ url, props = {} }: Props) {
-	const [Component, setComponent] = useState<React.FC | null>(null);
-
+export function ComponentLoader({ url }: Props) {
 	useEffect(() => {
 		(async () => {
 			try {
-				// Fetch the remote JavaScript file
-				const response = await fetch(url);
-				const jsCode = await response.text();
+				const script = document.createElement("script");
+				script.type = "module";
+				script.src = url;
 
-				// Wrap the code in a function so it can be evaluated
-				const module: any = {};
-				// eslint-disable-next-line no-new-func
-				new Function("module", "exports", jsCode)(module, module);
+				document.body.appendChild(script);
 
-				// Check if the module exports a valid React component
-				if (typeof module.exports?.default === "function") {
-					setComponent(() => module.exports.default);
-				} else {
-					console.error("Loaded module is not a valid React component");
-				}
+				script.onerror = (error) => {
+					console.error("Error loading remote component:", error);
+				};
 			} catch (error) {
 				console.error("Failed to load remote component:", error);
 			}
 		})();
 	}, [url]);
 
-	return <div>{Component ? <Component {...props} /> : <p>Loading...</p>}</div>;
+	return null;
 }

@@ -1,23 +1,23 @@
 import React from 'react'
-import { RegisteredComponent } from '../../src/index'
+import { registry } from "../../src/util/registry";
+import { Product } from '../../src/types';
 
-export default () => {
+type Props = {
+	data: Product;
+}
+
+export const Component = (props: Props) => {
 	return (
-		<RegisteredComponent contentType='product' componentId="my-custom-product-card">
-			{(product) => {
-				// This where all the magic happens
-				return (
-					<div>
-						<div>
-							{product.name}
-						</div>
-						<div>
-							{product.variants[0].price}
-						</div>
-						<button>Add To Cart</button>
-					</div>
-				)
-			}}
-		</RegisteredComponent>
+		<div>
+			<div>
+				{props.data.name}
+			</div>
+			<div>
+				{props.data.variants[0].price}
+			</div>
+			<button>Add To Cart</button>
+		</div>
 	)
 }
+
+registry.register('product', "my-custom-product-card", Component);
