@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "main": "dist/src/index",
-  "types": "dist/src/index",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b",
