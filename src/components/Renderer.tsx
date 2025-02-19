@@ -1,5 +1,4 @@
 import { useEffect, useState, ReactElement } from 'react';
-
 import { Product, Category } from '../types';
 import { registry } from '../util/registry';
 
@@ -14,19 +13,23 @@ export function Renderer({
 	data,
 	fallback
 }: RendererProps) {
-	const [Component, setComponent] = useState(() => registry.getComponent(componentId))
+	const [Component, setComponent] = useState<React.ComponentType<any> | undefined>(() => registry.getComponent(componentId));
 
-	let refreshComponent = (_: any) => {
-		setComponent(() => registry.getComponent(componentId))
-	}
+	const refreshComponent = () => {
+		setComponent(() => registry.getComponent(componentId));
+	};
 
 	useEffect(() => {
-		window.addEventListener('maker-nav-component-registered', refreshComponent);
+		const handleComponentRegistered = () => {
+			refreshComponent();
+		};
 
-		() => {
-			window.removeEventListener('maker-nav-component-registered', refreshComponent)
-		}
-	}, [componentId, data])
+		window.addEventListener('maker-nav-component-registered', handleComponentRegistered);
+
+		return () => {
+			window.removeEventListener('maker-nav-component-registered', handleComponentRegistered);
+		};
+	}, [componentId]);
 
 	if (!Component) {
 		return fallback;

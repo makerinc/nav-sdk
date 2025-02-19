@@ -1,6 +1,6 @@
 // For builder
-export { RegisteredComponent } from './components/RegisteredComponent'
-
+export type { Product, Category, ContentType } from './types/index'
+export { registry } from './util/registry'
 
 // For showside
 export { Renderer } from './components/Renderer'
