@@ -8,7 +8,7 @@ ReactDOM.render(
 		{mockProducts.map((product) =>
 			<Renderer key={product.id} componentId={"my-custom-product-card"} data={product} fallback={<div>No component found for componentId: my-custom-product-card</div>} />
 		)}
-		<ComponentLoader url="https://cdn.jsdelivr.net/gh/makerinc/nav-sdk@refs/heads/dev/examples/builder/CustomProductCard.js" />
+		<ComponentLoader url="/examples/builder/CustomProductCard.js" />
 	</React.StrictMode>,
 	document.getElementById('root')
 )

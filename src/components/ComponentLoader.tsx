@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import imported from 'react-imported-component';
 
 
@@ -8,11 +9,15 @@ type Props = {
 
 export function ComponentLoader({ url, props = {} }: Props) {
 
+
 	const RemoteComponent = imported(() =>
 		import(url)
 	);
 
 	return (
-		<RemoteComponent {...props} />
+		<Suspense fallback={''}>
+			<RemoteComponent {...props} />
+		</Suspense>
 	);
+
 }

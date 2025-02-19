@@ -1,7 +1,7 @@
 import React from 'react'
 import { RegisteredComponent } from '../../src/index'
 
-export const Component = () => {
+export default () => {
 	return (
 		<RegisteredComponent contentType='product' componentId="my-custom-product-card">
 			{(product) => {
