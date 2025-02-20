@@ -15,4 +15,4 @@ export const Component = (props: Props) => {
 	)
 }
 
-registry.register('product', "my-custom-product-card", Component);
+registry.register('product', "my-custom-product-card", (data) => <Component data={data} />);

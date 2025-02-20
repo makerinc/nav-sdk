@@ -1,29 +1,39 @@
-import { ContentType } from '../types';
-import React from 'react';
+import { Product, Category } from '../types';
+import { ReactElement } from 'react';
+
+
+type ContentTypeMapping = {
+	product: Product;
+	category: Category;
+};
+
+type RenderFunction<T extends keyof ContentTypeMapping> = (data: ContentTypeMapping[T]) => ReactElement;
+
+type RegisterFunction = <T extends keyof ContentTypeMapping>(
+	contentType: T,
+	componentId: string,
+	render: RenderFunction<T>
+) => void;
+
+type RegisteredComponent<T extends keyof ContentTypeMapping> = {
+	contentType: T;
+	render: RenderFunction<T>;
+};
 
 declare global {
 	interface Window {
 		__MAKER_NAV_COMPONENT_REGISTRY__?: {
-			register: <T extends ContentType>(
-				contentType: T,
-				componentId: string,
-				component: React.ComponentType<any>
-			) => void;
+			register: RegisterFunction,
 			unregister: (componentId: string) => void;
-			get: (componentId: string) => React.ComponentType<any> | undefined;
 		};
 	}
 }
 
-type RegisteredComponent = {
-	contentType: ContentType;
-	component: React.ComponentType<any>;
-};
 
 class ComponentRegistry {
 	private static instance: ComponentRegistry;
-	private components = new Map<string, RegisteredComponent>();
-	private contentTypeMap = new Map<ContentType, Set<string>>();
+	private components = new Map<string, RegisteredComponent<keyof ContentTypeMapping>>();
+	private contentTypeMap = new Map<keyof ContentTypeMapping, Set<string>>();
 
 	private constructor() {
 		if (typeof window === 'undefined') {
@@ -39,15 +49,15 @@ class ComponentRegistry {
 		document.body.appendChild(script);
 
 		window.__MAKER_NAV_COMPONENT_REGISTRY__ = {
-			register: <T extends ContentType>(
+			register: <T extends keyof ContentTypeMapping>(
 				contentType: T,
 				componentId: string,
-				component: React.ComponentType<any>
+				render: RenderFunction<T>
 			) => {
 				this.components.set(componentId, {
 					contentType,
-					component
-				});
+					render
+				} as RegisteredComponent<keyof ContentTypeMapping>);
 
 				if (!this.contentTypeMap.has(contentType)) {
 					this.contentTypeMap.set(contentType, new Set());
@@ -78,12 +88,8 @@ class ComponentRegistry {
 						})
 					);
 				}
-			},
-			get: (componentId: string) => {
-				return this.components.get(componentId)?.component;
 			}
 		};
-
 	}
 
 	public static getInstance(): ComponentRegistry {
@@ -93,13 +99,14 @@ class ComponentRegistry {
 		return ComponentRegistry.instance;
 	}
 
-	public register<T extends ContentType>(
+
+	public register<T extends keyof ContentTypeMapping>(
 		contentType: T,
 		componentId: string,
-		component: React.ComponentType<any>
+		render: RenderFunction<T>
 	): void {
 		if (this.isRegistryAvailable()) {
-			window.__MAKER_NAV_COMPONENT_REGISTRY__!.register(contentType, componentId, component);
+			window.__MAKER_NAV_COMPONENT_REGISTRY__!.register(contentType, componentId, render);
 		}
 	}
 
@@ -109,18 +116,18 @@ class ComponentRegistry {
 		}
 	}
 
-	public getComponent(componentId: string): React.ComponentType<any> | undefined {
-		return this.components.get(componentId)?.component;
+	public getComponent(componentId: string): RenderFunction<any> | undefined {
+		return this.components.get(componentId)?.render as RenderFunction<any> | undefined;
 	}
 
-	public getComponentsByType(contentType: ContentType): Array<{
+	public getComponentsByType(contentType: keyof ContentTypeMapping): Array<{
 		componentId: string;
-		component: React.ComponentType<any>;
+		render: RenderFunction<keyof ContentTypeMapping>;
 	}> {
 		const componentIds = this.contentTypeMap.get(contentType) || new Set();
 		return Array.from(componentIds).map(componentId => ({
 			componentId,
-			component: this.components.get(componentId)!.component
+			render: this.components.get(componentId)!.render
 		}));
 	}
 
