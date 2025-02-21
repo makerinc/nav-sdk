@@ -1,4 +1,4 @@
-import React, { useState, ReactElement } from 'react';
+import React, { useState, ReactElement, Suspense } from 'react';
 import { Product, Category } from '../types';
 import { registry, useRegistrationListener } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';
@@ -24,7 +24,9 @@ export function Renderer({ componentId, data, fallback }: RendererProps) {
 
 	return (
 		<ErrorBoundary fallback={fallback}>
-			{React.createElement(RenderComponent, { data })}
+			<Suspense fallback={fallback}>
+				{React.createElement(RenderComponent, { data })}
+			</Suspense>
 		</ErrorBoundary>
 	);
 }
