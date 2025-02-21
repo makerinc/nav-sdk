@@ -1,12 +1,21 @@
+import { useEffect } from "react";
 import { Product, Category } from '../types';
 import { injectImportMap } from './importmap';
-
 
 type ContentTypeMapping = {
 	product: Product;
 	category: Category;
 };
 
+export type eventData<T extends keyof ContentTypeMapping> = {
+	contentType: T;
+	componentId: string;
+}
+
+export const EVENTS = {
+	REGISTERED: "maker-nav-component-registered",
+	UNREGISTERED: "maker-nav-component-unregistered"
+}
 
 type Props<T extends keyof ContentTypeMapping> = {
 	data: ContentTypeMapping[T];
@@ -72,7 +81,7 @@ class ComponentRegistry {
 				this.contentTypeMap.get(contentType)!.add(componentId);
 
 				window.dispatchEvent(
-					new CustomEvent('maker-nav-component-registered', {
+					new CustomEvent(EVENTS.REGISTERED, {
 						detail: { contentType, componentId }
 					})
 				);
@@ -90,7 +99,7 @@ class ComponentRegistry {
 					this.components.delete(componentId);
 
 					window.dispatchEvent(
-						new CustomEvent('maker-nav-component-unregistered', {
+						new CustomEvent(EVENTS.UNREGISTERED, {
 							detail: { componentId }
 						})
 					);
@@ -131,15 +140,7 @@ class ComponentRegistry {
 	}
 
 	public getRenderFunction(componentId: string): RenderFunction<any> | undefined {
-		let renderFunction = window.__MAKER_NAV_COMPONENT_REGISTRY__!.list().find(component => component.componentId === componentId)?.render
-
-		if (renderFunction) {
-			console.log("Render function found for componentId:", componentId);
-		} else {
-			console.log("Render function not found for componentId:", componentId);
-		}
-
-		return renderFunction;
+		return window.__MAKER_NAV_COMPONENT_REGISTRY__!.list().find(component => component.componentId === componentId)?.render
 	}
 
 	public isRegistryAvailable(): boolean {
@@ -148,3 +149,16 @@ class ComponentRegistry {
 }
 
 export const registry = ComponentRegistry.getInstance();
+
+export function useRegistrationListener(callback: (componentId: string) => void) {
+	useEffect(() => {
+		const handleEvent = (e: any) => {
+			callback(e.detail.componentId);
+		};
+
+		window.addEventListener(EVENTS.REGISTERED, handleEvent);
+		return () => {
+			window.removeEventListener(EVENTS.UNREGISTERED, handleEvent);
+		};
+	}, []);
+}

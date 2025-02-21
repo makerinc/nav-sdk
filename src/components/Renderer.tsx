@@ -1,6 +1,6 @@
-import { useEffect, useState, ReactElement } from 'react';
+import React, { useState, ReactElement } from 'react';
 import { Product, Category } from '../types';
-import { registry } from '../util/registry';
+import { registry, useRegistrationListener } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';
 
 type RendererProps = {
@@ -12,18 +12,9 @@ type RendererProps = {
 export function Renderer({ componentId, data, fallback }: RendererProps) {
 	const [_, setForceRender] = useState<number>(() => 0);
 
-
-	useEffect(() => {
-		const handleForceRender = () => {
-			setForceRender(previous => previous + 1);
-		};
-
-		window.addEventListener('maker-nav-component-registered', handleForceRender);
-		return () => {
-			window.removeEventListener('maker-nav-component-registered', handleForceRender);
-		};
-	}, []);
-
+	useRegistrationListener((data) => {
+		data == componentId && setForceRender(previous => previous + 1);
+	})
 
 	const RenderComponent = registry.getRenderFunction(componentId)
 
@@ -33,7 +24,7 @@ export function Renderer({ componentId, data, fallback }: RendererProps) {
 
 	return (
 		<ErrorBoundary fallback={fallback}>
-			<RenderComponent data={data} />
+			{React.createElement(RenderComponent, { data })}
 		</ErrorBoundary>
 	);
 }
