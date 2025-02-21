@@ -1,5 +1,4 @@
 import { Product, Category } from '../types';
-import { ReactElement } from 'react';
 import { injectImportMap } from './importmap';
 
 
@@ -8,7 +7,12 @@ type ContentTypeMapping = {
 	category: Category;
 };
 
-export type RenderFunction<T extends keyof ContentTypeMapping> = (data: ContentTypeMapping[T]) => ReactElement;
+
+type Props<T extends keyof ContentTypeMapping> = {
+	data: ContentTypeMapping[T];
+};
+
+export type RenderFunction<T extends keyof ContentTypeMapping> = (props: Props<T>) => React.JSX.Element
 
 type RegisterFunction = <T extends keyof ContentTypeMapping>(
 	contentType: T,

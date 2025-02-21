@@ -1,4 +1,4 @@
-import { useEffect, useState, ReactElement } from 'react';
+import React, { useEffect, useState, ReactElement } from 'react';
 import { Product, Category } from '../types';
 import { registry, RenderFunction } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';
@@ -36,5 +36,5 @@ export function Renderer({
 		return fallback;
 	}
 
-	return <ErrorBoundary fallback={fallback}>{renderFunction(data)}</ErrorBoundary>;
+	return <ErrorBoundary fallback={fallback}>{React.createElement(renderFunction, { data })}</ErrorBoundary>;
 }
