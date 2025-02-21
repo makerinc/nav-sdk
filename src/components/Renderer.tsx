@@ -10,34 +10,30 @@ type RendererProps = {
 };
 
 export function Renderer({ componentId, data, fallback }: RendererProps) {
-	const [renderFunction, setRenderFunction] = useState<RenderFunction<any> | undefined>(
-		registry.getRenderFunction(componentId)
-	);
+	const [_, setForceRender] = useState<number>(() => 0);
 
-	const refreshComponent = () => {
-		setRenderFunction(registry.getRenderFunction(componentId));
-	};
 
 	useEffect(() => {
-		const handleComponentRegistered = () => {
-			refreshComponent();
+		const handleForceRender = () => {
+			setForceRender(previous => previous + 1);
 		};
 
-		window.addEventListener('maker-nav-component-registered', handleComponentRegistered);
+		window.addEventListener('maker-nav-component-registered', handleForceRender);
 		return () => {
-			window.removeEventListener('maker-nav-component-registered', handleComponentRegistered);
+			window.removeEventListener('maker-nav-component-registered', handleForceRender);
 		};
 	}, []);
 
-	if (typeof renderFunction !== 'function') {
+
+	const RenderComponent = registry.getRenderFunction(componentId)
+
+	if (typeof RenderComponent !== 'function') {
 		return fallback;
 	}
 
-	const RenderedComponent = renderFunction;
-
 	return (
 		<ErrorBoundary fallback={fallback}>
-			<RenderedComponent data={data} />
+			<RenderComponent data={data} />
 		</ErrorBoundary>
 	);
 }
