@@ -1,17 +1,19 @@
 const React = window.__MAKER_REACT__
-import { Props } from './Image';
+import { Props as ImageProps } from './Image';
 
-type Context = {
-	renderImage: (props: Props) => React.JSX.Element | null;
+type ContextType = {
+	renderImage: (props: ImageProps) => React.JSX.Element | null;
 };
 
-type ProviderProps = React.PropsWithChildren<Context>
-
-const Context = React.createContext({
-	renderImage: (_: any) => null
+const Context = React.createContext<ContextType>({
+	renderImage: (_: ImageProps) => null
 });
 
-export const useContext = () => React.useContext(Context)
+type ProviderProps = React.PropsWithChildren<{
+	renderImage: (props: ImageProps) => React.JSX.Element | null;
+}>;
+
+export const useContext = () => React.useContext(Context);
 
 export function Provider({ renderImage, children }: ProviderProps) {
 	return (
@@ -24,4 +26,4 @@ export function Provider({ renderImage, children }: ProviderProps) {
 export default {
 	Provider,
 	useContext
-}
+};
