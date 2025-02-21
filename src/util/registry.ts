@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Product, Category } from '../types';
+import { injectImportMap } from './importmap';
 
 export type ContentTypeMapping = {
 	product: Product;
@@ -46,6 +47,8 @@ class ComponentRegistry {
 		if (typeof document === 'undefined') {
 			return;
 		}
+
+		injectImportMap()
 
 		window.__MAKER_NAV_COMPONENT_REGISTRY__ = {
 			register: <T extends keyof ContentTypeMapping>(
