@@ -25,7 +25,12 @@ declare global {
 	interface Window {
 		__MAKER_NAV_COMPONENT_REGISTRY__?: {
 			register: RegisterFunction,
-			unregister: (componentId: string) => void;
+			unregister: (componentId: string) => void,
+			list: () => Array<{
+				componentId: string;
+				contentType: keyof ContentTypeMapping;
+				render: RenderFunction<keyof ContentTypeMapping>;
+			}>;
 		};
 	}
 }
@@ -86,6 +91,13 @@ class ComponentRegistry {
 						})
 					);
 				}
+			},
+			list: () => {
+				return Array.from(this.components.entries()).map(([componentId, component]) => ({
+					componentId: componentId,
+					contentType: component.contentType,
+					render: component.render
+				}));
 			}
 		};
 	}
@@ -115,7 +127,15 @@ class ComponentRegistry {
 	}
 
 	public getRenderFunction(componentId: string): RenderFunction<any> | undefined {
-		return this.components.get(componentId)?.render as RenderFunction<any> | undefined;
+		let renderFunction = this.components.get(componentId)?.render as RenderFunction<any> | undefined;
+
+		if (renderFunction) {
+			console.log("Render function found for componentId:", componentId);
+		} else {
+			console.log("Render function not found for componentId:", componentId);
+		}
+
+		return renderFunction;
 	}
 
 	public isRegistryAvailable(): boolean {
