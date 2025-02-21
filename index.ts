@@ -2,7 +2,7 @@
 export type { Product, Category, ContentType } from './src/types/index'
 export { registry, useRegistrationListener } from './src/util/registry'
 export { default as Image } from './src/components/Image'
-export const React = window.__MAKER_REACT
+export const React = window.__MAKER_REACT__
 
 // For showside
 export { Renderer } from './src/components/Renderer'

@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { Product, Category } from '../types';
-import { injectImportMap } from './importmap';
 
-type ContentTypeMapping = {
+export type ContentTypeMapping = {
 	product: Product;
 	category: Category;
 };
@@ -23,7 +22,7 @@ type Props<T extends keyof ContentTypeMapping> = {
 
 export type RenderFunction<T extends keyof ContentTypeMapping> = (props: Props<T>) => React.JSX.Element
 
-type RegisterFunction = <T extends keyof ContentTypeMapping>(
+export type RegisterFunction = <T extends keyof ContentTypeMapping>(
 	contentType: T,
 	componentId: string,
 	render: RenderFunction<T>
@@ -33,20 +32,6 @@ type RegisteredComponent<T extends keyof ContentTypeMapping> = {
 	contentType: T;
 	render: RenderFunction<T>;
 };
-
-declare global {
-	interface Window {
-		__MAKER_NAV_COMPONENT_REGISTRY__?: {
-			register: RegisterFunction,
-			unregister: (componentId: string) => void,
-			list: () => Array<{
-				componentId: string;
-				contentType: keyof ContentTypeMapping;
-				render: RenderFunction<keyof ContentTypeMapping>;
-			}>;
-		};
-	}
-}
 
 
 class ComponentRegistry {

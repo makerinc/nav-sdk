@@ -4,16 +4,10 @@ type Props = {
 	url: string;
 };
 
-declare global {
-	interface Window {
-		__MAKER_REACT: any
-	}
-}
-
 export function ComponentLoader({ url }: Props) {
 
 	useEffect(() => {
-		window.__MAKER_REACT = React;
+		window.__MAKER_REACT__ = React;
 
 		try {
 			const script = document.createElement("script");
