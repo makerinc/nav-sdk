@@ -1,4 +1,4 @@
-import React from 'react';
+const React = window.__MAKER_REACT__
 import { Props } from './Image';
 
 type Context = {
@@ -7,8 +7,8 @@ type Context = {
 
 type ProviderProps = React.PropsWithChildren<Context>
 
-const Context = React.createContext<Context>({
-	renderImage: (_) => null
+const Context = React.createContext({
+	renderImage: (_: any) => null
 });
 
 export const useContext = () => React.useContext(Context)
