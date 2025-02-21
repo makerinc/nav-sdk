@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, ReactElement } from 'react';
+import { useEffect, useRef, useState, ReactElement } from 'react';
 import { Product, Category } from '../types';
 import { registry, RenderFunction } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';
@@ -10,16 +10,15 @@ type RendererProps = {
 };
 
 export function Renderer({ componentId, data, fallback }: RendererProps) {
-	const [renderFunction, setRenderFunction] = useState<RenderFunction<any> | undefined>(
-		() => registry.getRenderFunction(componentId)
+	const renderFunctionRef = useRef<RenderFunction<any> | undefined>(
+		registry.getRenderFunction(componentId)
 	);
+	const [_, setForceRender] = useState(false);
 
-	const refreshComponent = useCallback(() => {
-		const newRenderFunction = registry.getRenderFunction(componentId);
-		if (newRenderFunction) {
-			setRenderFunction(() => newRenderFunction);
-		}
-	}, [componentId]);
+	const refreshComponent = () => {
+		renderFunctionRef.current = registry.getRenderFunction(componentId);
+		setForceRender((prev) => !prev);
+	};
 
 	useEffect(() => {
 		const handleComponentRegistered = () => {
@@ -30,15 +29,16 @@ export function Renderer({ componentId, data, fallback }: RendererProps) {
 		return () => {
 			window.removeEventListener('maker-nav-component-registered', handleComponentRegistered);
 		};
-	}, [refreshComponent]);
+	}, []);
 
-	if (typeof renderFunction !== 'function') {
+	if (typeof renderFunctionRef.current !== 'function') {
 		return fallback;
 	}
 
+	const RenderedComponent = renderFunctionRef.current;
 	return (
 		<ErrorBoundary fallback={fallback}>
-			{React.createElement(renderFunction, { data })}
+			<RenderedComponent data={data} />
 		</ErrorBoundary>
 	);
 }
