@@ -127,15 +127,9 @@ class ComponentRegistry {
 	}
 
 	public getRenderFunction(componentId: string): RenderFunction<any> | undefined {
-		let renderFunction = this.components.get(componentId)?.render as RenderFunction<any> | undefined;
-
-		if (renderFunction) {
-			console.log("Render function found for componentId:", componentId);
-		} else {
-			console.log("Render function not found for componentId:", componentId);
+		if (this.isRegistryAvailable()) {
+			return window.__MAKER_NAV_COMPONENT_REGISTRY__!.list().find(component => component.componentId === componentId)?.render;
 		}
-
-		return renderFunction;
 	}
 
 	public isRegistryAvailable(): boolean {
