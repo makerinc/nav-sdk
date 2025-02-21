@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, ReactElement } from 'react';
+import { useEffect, useState, ReactElement } from 'react';
 import { Product, Category } from '../types';
 import { registry, RenderFunction } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';
@@ -10,14 +10,12 @@ type RendererProps = {
 };
 
 export function Renderer({ componentId, data, fallback }: RendererProps) {
-	const renderFunctionRef = useRef<RenderFunction<any> | undefined>(
+	const [renderFunction, setRenderFunction] = useState<RenderFunction<any> | undefined>(
 		registry.getRenderFunction(componentId)
 	);
-	const [_, setForceRender] = useState(false);
 
 	const refreshComponent = () => {
-		renderFunctionRef.current = registry.getRenderFunction(componentId);
-		setForceRender((prev) => !prev);
+		setRenderFunction(registry.getRenderFunction(componentId));
 	};
 
 	useEffect(() => {
@@ -31,11 +29,12 @@ export function Renderer({ componentId, data, fallback }: RendererProps) {
 		};
 	}, []);
 
-	if (typeof renderFunctionRef.current !== 'function') {
+	if (typeof renderFunction !== 'function') {
 		return fallback;
 	}
 
-	const RenderedComponent = renderFunctionRef.current;
+	const RenderedComponent = renderFunction;
+
 	return (
 		<ErrorBoundary fallback={fallback}>
 			<RenderedComponent data={data} />
