@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Product, Category } from '../types';
+import { Product, Category } from '../types/Index';
 import { injectImportMap } from './importmap';
 
 export type ContentTypeMapping = {

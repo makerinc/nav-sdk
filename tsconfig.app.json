@@ -28,7 +28,6 @@
   "include": [
     "src",
     "index.ts",
-    "react.ts",
-    "src/types/window.ts"
+    "react.ts"
   ]
 }

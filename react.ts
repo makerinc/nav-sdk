@@ -1,5 +1,5 @@
 import React from 'react';
-import './src/types/window';
+import './src/types/Window';
 
 window.__MAKER_REACT__ = window.__MAKER_REACT__ || React;
 
