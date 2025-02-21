@@ -14,10 +14,10 @@ export function Renderer({
 	data,
 	fallback
 }: RendererProps) {
-	const [renderFunction, setRenderFunction] = useState<RenderFunction<any> | undefined>(() => registry.getRenderFunction(componentId));
+	const [renderFunction, setRenderFunction] = useState<RenderFunction<any> | undefined>(registry.getRenderFunction(componentId));
 
 	const refreshComponent = () => {
-		setRenderFunction(() => registry.getRenderFunction(componentId));
+		setRenderFunction(registry.getRenderFunction(componentId));
 	};
 
 	useEffect(() => {
