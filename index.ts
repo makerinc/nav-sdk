@@ -1,3 +1,6 @@
+import originalReact from 'react';
+window.__MAKER_REACT__ = window.__MAKER_REACT__ || originalReact;
+
 // For builder
 export type { Product, Category, ContentType } from './src/types/index'
 export { registry, useRegistrationListener } from './src/util/registry'

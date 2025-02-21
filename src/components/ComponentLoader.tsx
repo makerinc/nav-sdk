@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 type Props = {
 	url: string;
@@ -7,7 +7,6 @@ type Props = {
 export function ComponentLoader({ url }: Props) {
 
 	useEffect(() => {
-		window.__MAKER_REACT__ = React;
 
 		try {
 			const script = document.createElement("script");
