@@ -62,8 +62,6 @@ class ComponentRegistry {
 			return;
 		}
 
-		injectImportMap()
-
 		window.__MAKER_NAV_COMPONENT_REGISTRY__ = {
 			register: <T extends keyof ContentTypeMapping>(
 				contentType: T,
