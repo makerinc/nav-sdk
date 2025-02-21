@@ -1,4 +1,4 @@
-import React from '../util/get-react';
+import React from '../../react';
 import { Product, Category } from '../types';
 import { registry, useRegistrationListener, RenderFunction } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';

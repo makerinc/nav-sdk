@@ -1,4 +1,4 @@
-import React from '../util/get-react';
+import React from '../../react';
 import { Props as ImageProps } from './Image';
 
 type ContextType = {

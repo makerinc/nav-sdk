@@ -1,4 +1,5 @@
-import { React, Product, registry } from '../../index';
+import { Product, registry } from '../../index';
+import React from '../../react';
 
 type Props = {
 	data: Product;

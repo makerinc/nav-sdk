@@ -1,3 +1,3 @@
-export * from './Content'
-export * from './Product'
-export * from './Category'
+export * from './content'
+export * from './product'
+export * from './category'

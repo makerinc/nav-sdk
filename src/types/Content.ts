@@ -1,5 +1,5 @@
-import { Product } from './Product'
-import { Category } from './Category'
+import { Product } from './product'
+import { Category } from './category'
 
 export type ContentType = 'product' | 'category' | 'none';
 
