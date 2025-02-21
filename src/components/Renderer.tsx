@@ -1,6 +1,6 @@
 import { useEffect, useState, ReactElement } from 'react';
 import { Product, Category } from '../types';
-import { registry, RenderFunction } from '../util/registry';
+import { registry } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';
 
 type RendererProps = {
