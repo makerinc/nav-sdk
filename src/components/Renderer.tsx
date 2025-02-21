@@ -1,6 +1,6 @@
 import { useEffect, useState, ReactElement } from 'react';
 import { Product, Category } from '../types';
-import { registry } from '../util/registry';
+import { registry, RenderFunction } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';
 
 type RendererProps = {
@@ -14,10 +14,10 @@ export function Renderer({
 	data,
 	fallback
 }: RendererProps) {
-	const [Component, setComponent] = useState<React.ComponentType<any> | undefined>(() => registry.getComponent(componentId));
+	const [renderFunction, setRenderFunction] = useState<RenderFunction<any> | undefined>(() => registry.getRenderFunction(componentId));
 
 	const refreshComponent = () => {
-		setComponent(() => registry.getComponent(componentId));
+		setRenderFunction(() => registry.getRenderFunction(componentId));
 	};
 
 	useEffect(() => {
@@ -32,9 +32,9 @@ export function Renderer({
 		};
 	}, [componentId]);
 
-	if (!Component) {
+	if (!renderFunction) {
 		return fallback;
 	}
 
-	return <ErrorBoundary fallback={fallback}><Component data={data} /></ErrorBoundary>;
+	return <ErrorBoundary fallback={fallback}>{renderFunction(data)}</ErrorBoundary>;
 }

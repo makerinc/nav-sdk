@@ -8,7 +8,7 @@ type ContentTypeMapping = {
 	category: Category;
 };
 
-type RenderFunction<T extends keyof ContentTypeMapping> = (data: ContentTypeMapping[T]) => ReactElement;
+export type RenderFunction<T extends keyof ContentTypeMapping> = (data: ContentTypeMapping[T]) => ReactElement;
 
 type RegisterFunction = <T extends keyof ContentTypeMapping>(
 	contentType: T,
@@ -114,19 +114,8 @@ class ComponentRegistry {
 		}
 	}
 
-	public getComponent(componentId: string): RenderFunction<any> | undefined {
+	public getRenderFunction(componentId: string): RenderFunction<any> | undefined {
 		return this.components.get(componentId)?.render as RenderFunction<any> | undefined;
-	}
-
-	public getComponentsByType(contentType: keyof ContentTypeMapping): Array<{
-		componentId: string;
-		render: RenderFunction<keyof ContentTypeMapping>;
-	}> {
-		const componentIds = this.contentTypeMap.get(contentType) || new Set();
-		return Array.from(componentIds).map(componentId => ({
-			componentId,
-			render: this.components.get(componentId)!.render
-		}));
 	}
 
 	public isRegistryAvailable(): boolean {
