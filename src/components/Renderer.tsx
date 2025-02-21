@@ -1,6 +1,7 @@
 import { useEffect, useState, ReactElement } from 'react';
 import { Product, Category } from '../types';
 import { registry } from '../util/registry';
+import ErrorBoundary from './ErrorBoundary';
 
 type RendererProps = {
 	componentId: string;
@@ -35,5 +36,5 @@ export function Renderer({
 		return fallback;
 	}
 
-	return <Component data={data} />;
+	return <ErrorBoundary fallback={fallback}><Component data={data} /></ErrorBoundary>;
 }

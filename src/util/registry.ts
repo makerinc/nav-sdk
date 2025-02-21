@@ -1,5 +1,6 @@
 import { Product, Category } from '../types';
 import { ReactElement } from 'react';
+import { injectImportMap } from './importmap';
 
 
 type ContentTypeMapping = {
@@ -43,10 +44,7 @@ class ComponentRegistry {
 			return;
 		}
 
-		let script = document.createElement('script');
-		script.innerHTML = `{"imports":{"react":"https://esm.sh/react@16.14.0","react-dom":"https://esm.sh/react@16.14.0","react/jsx-runtime":"https://esm.sh/react@16.14.0/jsx-runtime"}}`
-		script.type = "importmap"
-		document.body.appendChild(script);
+		injectImportMap()
 
 		window.__MAKER_NAV_COMPONENT_REGISTRY__ = {
 			register: <T extends keyof ContentTypeMapping>(
