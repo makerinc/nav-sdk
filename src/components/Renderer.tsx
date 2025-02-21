@@ -1,17 +1,19 @@
-import { useState, ReactElement } from 'react';
+import React from '../util/get-react';
 import { Product, Category } from '../types';
 import { registry, useRegistrationListener, RenderFunction } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';
 
+
+
 type RendererProps = {
 	componentId: string;
 	data: Product | Category;
-	fallback: ReactElement;
+	fallback: React.ReactElement;
 };
 
 
 export function Renderer({ componentId, data, fallback }: RendererProps) {
-	const [Component, setComponent] = useState<RenderFunction<any> | undefined>(undefined);
+	const [Component, setComponent] = React.useState<RenderFunction<any> | undefined>(undefined);
 
 	useRegistrationListener((_) => {
 		setComponent(registry.getRenderFunction(componentId))

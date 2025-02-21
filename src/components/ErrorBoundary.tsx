@@ -1,4 +1,8 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import React from '../util/get-react';
+
+type ErrorInfo = React.ErrorInfo;
+type ReactNode = React.ReactNode;
+
 
 type Props = {
 	fallback: ReactNode;
@@ -9,7 +13,7 @@ type State = {
 	hasError: boolean;
 };
 
-class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundary extends React.Component<Props, State> {
 	public state: State = {
 		hasError: false
 	};

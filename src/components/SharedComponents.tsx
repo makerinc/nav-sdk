@@ -1,4 +1,4 @@
-const React = window.__MAKER_REACT__
+import React from '../util/get-react';
 import { Props as ImageProps } from './Image';
 
 type ContextType = {
