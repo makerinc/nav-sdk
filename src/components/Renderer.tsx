@@ -9,6 +9,7 @@ type RendererProps = {
 	fallback: ReactElement;
 };
 
+
 export function Renderer({ componentId, data, fallback }: RendererProps) {
 	const [_, setForceRender] = useState<number>(() => 0);
 
