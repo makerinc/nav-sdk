@@ -1,6 +1,6 @@
 {
   "name": "@makerinc/nav-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "main": "dist/index",
   "types": "dist/index",
@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "yarn build",
+    "prepublishonly": "yarn build",
     "build-examples": "yarn esbuild examples/builder/CustomProductCard.tsx --bundle --minify --outfile=examples/builder/CustomProductCard.js --jsx=automatic --format=esm --platform=browser --external:react --external:react-dom"
   },
   "dependencies": {
