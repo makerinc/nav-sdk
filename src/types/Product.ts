@@ -45,7 +45,7 @@ export type Variant = {
 export type Product = {
 	id: string;
 	title: string;
-	link: string;
+	link?: string;
 	productType: string;
 	variants: Variant[];
 	metadata?: Metadata;
