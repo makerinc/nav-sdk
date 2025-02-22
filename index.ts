@@ -1,6 +1,6 @@
 // For builder
-export type { Product, Category, ContentType } from './src/types'
-export { registry } from './src/util/registry'
+export type { Product, Category } from './src/types'
+export { registry } from './src/utils/registry'
 export { default as Image } from './src/components/Image'
 
 // For showside

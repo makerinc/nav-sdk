@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ContentTypeMapping, CustomComponent, RegisterFunction } from "../util/registry";
+import { ContentTypeMapping, CustomComponent, RegisterFunction } from "../utils/registry";
 
 
 declare global {

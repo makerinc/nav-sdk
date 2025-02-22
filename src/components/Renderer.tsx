@@ -1,6 +1,6 @@
 import React from 'react';
 import { Product, Category } from '../types';
-import { registry, useRegistrationListener } from '../util/registry';
+import { registry, useRegistrationListener } from '../utils/registry';
 import ErrorBoundary from './ErrorBoundary';
 
 type RendererProps = {
@@ -8,7 +8,6 @@ type RendererProps = {
 	data: Product | Category;
 	fallback: React.ReactElement;
 };
-
 
 export function Renderer({ componentId, data, fallback }: RendererProps) {
 	const [_, setForceRender] = React.useState<number>(() => 0);
