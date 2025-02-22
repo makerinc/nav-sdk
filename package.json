@@ -1,9 +1,10 @@
 {
   "name": "@makerinc/nav-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "main": "dist/index",
   "types": "dist/index",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b",
