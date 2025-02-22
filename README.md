@@ -31,18 +31,8 @@ type Props = {
 }
 
 const MyCustomProductCard = ({data}: Props) => {
-  const [state, setState] = React.useState(0);
-
-  const handleClick = () => {
-    setState(state + 1);
-  };
-
   return (
-    <div>
-      <h1>{data.name}</h1>
-      <p>{data.description}</p>
-      <button onClick={handleClick}>Clicked {state} times</button>
-    </div>
+    // Your component code here
   );
 };
 
@@ -51,7 +41,9 @@ registry.register("product", "my-product-card", MyCustomProductCard);
 export default MyCustomProductCard;
 ```
 
-> **⚠️ Important Note:** The `react` import from `@makerinc/nav-sdk` is required for the hooks to correctly work inside Nav as React would not recognize and track hook usage correctly if the instances are different. If you wish to use your existing React component in Nav, you can simply replace the react import like so:
+> **⚠️ Important Note:** The `react` import from `@makerinc/nav-sdk` is required for the hooks to correctly work inside Nav as React would not recognize and track hook usage correctly when the instances are different.
+>
+>If you wish to use your existing React component in Nav, you can simply replace the react import in your component like so:
 > #### Before:
 > ```tsx
 > import React, {useState, useMemo, ...others} from "react";
@@ -71,5 +63,4 @@ export default MyCustomProductCard;
 | --- | --- | --- |
 | type | 'product' \| 'category' | The type of the component, this determines the type of data that will be passed to your component. |
 | id | string | The id of the component, this will be used to tell Nav which component to render in a specific node or section. It must be unique for each custom component. |
-| component | (props: Props) => JSX.Element | React component to be rendered by Nav. Props will be of type `Product` or `Category` depending on the type of component. |
-
+| component | ({ data }) => JSX.Element | React component to be rendered by Nav. `data` will be of type [`Product`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Product.ts) or [`Category`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Category.ts) depending on the `type` parameter.
