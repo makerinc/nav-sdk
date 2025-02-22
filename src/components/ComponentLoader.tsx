@@ -1,13 +1,13 @@
-import { useEffect } from "react";
+import React from "../../react";
 
 type Props = {
 	url: string;
-	onLoad: (() => void) | undefined;
-	onError: ((error: string) => void) | undefined;
+	onLoad?: (() => void);
+	onError?: ((error: string) => void);
 };
 
 export function ComponentLoader({ url, onLoad, onError }: Props) {
-	useEffect(() => {
+	React.useEffect(() => {
 		try {
 			const script = document.createElement("script");
 			script.type = "module";

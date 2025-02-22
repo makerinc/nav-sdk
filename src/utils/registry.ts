@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React from "../../react";
 import { Product, Category } from '../types';
 import { injectImportMap } from './importmap';
 
@@ -132,7 +132,7 @@ class ComponentRegistry {
 export const registry = ComponentRegistry.getInstance();
 
 export function useRegistrationListener(callback: (componentId: string) => void) {
-	useEffect(() => {
+	React.useEffect(() => {
 		const handleEvent = (e: any) => {
 			callback(e.detail.componentId);
 		};
