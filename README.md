@@ -1,50 +1,55 @@
-# React + TypeScript + Vite
+# Nav SDK
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Installation
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+NPM:
+```bash
+npm install @makerinc/nav-sdk
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Yarn:
+```bash
+yarn add @makerinc/nav-sdk
 ```
+
+### Usage
+Nav SDK provides a registry function to register your custom components. Data fetching and syncing will be handled by Nav and the regitry will pass the data down to your custom component as props.
+
+
+```tsx
+import { registry, Product } from '@makerinc/nav-sdk';
+import React from "@makerinc/nav-sdk/react";
+
+type Props = {
+  data: Product
+}
+
+const MyCustomProductCard = ({data}: Props) => {
+  const [state, setState] = React.useState(0);
+
+  const handleClick = () => {
+    setState(state + 1);
+  };
+
+  return (
+    <div>
+      <h1>{data.name}</h1>
+      <p>{data.description}</p>
+      <button onClick={handleClick}>Clicked {state} times</button>
+    </div>
+  );
+};
+
+registry.register('product', 'my-product-card', MyCustomProductCard);
+
+export default MyCustomProductCard;
+```
+
+### Registry API
+`registry.register(type, id, component)`
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| type | 'product' \| 'category' | The type of the component, this determines the type of data that will be passed to your component |
+| id | string | The id of the component, this will be used to tell Nav which component to render in a specific node. It must be unique for each custom component. |
+| component | React.ComponentType<any> | React component to be rendered by Nav |
