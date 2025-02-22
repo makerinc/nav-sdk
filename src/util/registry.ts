@@ -7,31 +7,26 @@ export type ContentTypeMapping = {
 	category: Category;
 };
 
-export type eventData<T extends keyof ContentTypeMapping> = {
-	contentType: T;
-	componentId: string;
-}
-
 export const EVENTS = {
 	REGISTERED: "maker-nav-component-registered",
 	UNREGISTERED: "maker-nav-component-unregistered"
 }
 
-type Props<T extends keyof ContentTypeMapping> = {
+type CustomComponentProps<T extends keyof ContentTypeMapping> = {
 	data: ContentTypeMapping[T];
 };
 
-export type RenderFunction<T extends keyof ContentTypeMapping> = (props: Props<T>) => React.JSX.Element
+export type CustomComponent<T extends keyof ContentTypeMapping> = (props: CustomComponentProps<T>) => React.JSX.Element
 
 export type RegisterFunction = <T extends keyof ContentTypeMapping>(
 	contentType: T,
 	componentId: string,
-	render: RenderFunction<T>
+	render: CustomComponent<T>
 ) => void;
 
 type RegisteredComponent<T extends keyof ContentTypeMapping> = {
 	contentType: T;
-	render: RenderFunction<T>;
+	render: CustomComponent<T>;
 };
 
 
@@ -54,7 +49,7 @@ class ComponentRegistry {
 			register: <T extends keyof ContentTypeMapping>(
 				contentType: T,
 				componentId: string,
-				render: RenderFunction<T>
+				render: CustomComponent<T>
 			) => {
 				this.components.set(componentId, {
 					contentType,
@@ -112,7 +107,7 @@ class ComponentRegistry {
 	public register<T extends keyof ContentTypeMapping>(
 		contentType: T,
 		componentId: string,
-		render: RenderFunction<T>
+		render: CustomComponent<T>
 	): void {
 		if (this.isRegistryAvailable()) {
 			window.__MAKER_NAV_COMPONENT_REGISTRY__!.register(contentType, componentId, render);
@@ -125,7 +120,7 @@ class ComponentRegistry {
 		}
 	}
 
-	public getRenderFunction(componentId: string): RenderFunction<any> | undefined {
+	public getRenderFunction(componentId: string): CustomComponent<any> | undefined {
 		return window.__MAKER_NAV_COMPONENT_REGISTRY__!.list().find(component => component.componentId === componentId)?.render
 	}
 

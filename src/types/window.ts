@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ContentTypeMapping, RenderFunction, RegisterFunction } from "../util/registry";
+import { ContentTypeMapping, CustomComponent, RegisterFunction } from "../util/registry";
 
 
 declare global {
@@ -11,7 +11,7 @@ declare global {
 			list: () => Array<{
 				componentId: string;
 				contentType: keyof ContentTypeMapping;
-				render: RenderFunction<keyof ContentTypeMapping>;
+				render: CustomComponent<keyof ContentTypeMapping>;
 			}>;
 		};
 	}
