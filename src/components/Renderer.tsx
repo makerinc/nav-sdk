@@ -1,9 +1,7 @@
-import React from '../../react';
+import React from 'react';
 import { Product, Category } from '../types';
-import { registry, useRegistrationListener, RenderFunction } from '../util/registry';
+import { registry, useRegistrationListener } from '../util/registry';
 import ErrorBoundary from './ErrorBoundary';
-
-
 
 type RendererProps = {
 	componentId: string;
@@ -13,19 +11,21 @@ type RendererProps = {
 
 
 export function Renderer({ componentId, data, fallback }: RendererProps) {
-	const [Component, setComponent] = React.useState<RenderFunction<any> | undefined>(undefined);
+	const [_, setForceRender] = React.useState<number>(() => 0);
 
-	useRegistrationListener((_) => {
-		setComponent(registry.getRenderFunction(componentId))
+	useRegistrationListener((data) => {
+		data == componentId && setForceRender(previous => previous + 1);
 	})
 
-	if (typeof Component !== 'function') {
+	const RenderComponent = registry.getRenderFunction(componentId)
+
+	if (typeof RenderComponent !== 'function') {
 		return fallback;
 	}
 
 	return (
 		<ErrorBoundary fallback={fallback}>
-			<Component data={data} />
+			{React.createElement(RenderComponent, { data })}
 		</ErrorBoundary>
 	);
 }
