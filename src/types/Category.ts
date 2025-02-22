@@ -1,10 +1,10 @@
-export type onClick = () => void
-
 export type Category = {
+	id: string,
 	title: string,
 	description: string,
 	image?: string,
+	imageWidth?: number,
+	imageHeight?: number,
 	video?: string,
-	onClick?: onClick,
 	children: Category[]
 }

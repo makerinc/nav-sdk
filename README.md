@@ -71,4 +71,5 @@ export default MyCustomProductCard;
 | --- | --- | --- |
 | type | 'product' \| 'category' | The type of the component, this determines the type of data that will be passed to your component. |
 | id | string | The id of the component, this will be used to tell Nav which component to render in a specific node or section. It must be unique for each custom component. |
-| component | (props: Props) => JSX.Element | React component to be rendered by Nav. |
+| component | (props: Props) => JSX.Element | React component to be rendered by Nav. Props will be of type `Product` or `Category` depending on the type of component. |
+

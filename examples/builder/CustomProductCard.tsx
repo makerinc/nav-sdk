@@ -15,7 +15,7 @@ export const Component = (props: Props) => {
 	return (
 		<div>
 			<div>
-				{props.data.name}
+				{props.data.title}
 			</div>
 			<button onClick={handleClick}>Clicked {state} times</button>
 		</div>
