@@ -1,10 +1,10 @@
-import SharedComponents from './SharedComponents';
+import SharedComponents from '../SharedComponents';
 
 export type Props = {
 	src: string;
 	alt: string;
-	fit: 'cover' | 'contain' | 'scale-down';
 	priority: number;
+	fit: 'cover' | 'contain' | 'scale-down';
 }
 
 const Image = (props: Props) => {
@@ -27,8 +27,7 @@ const Image = (props: Props) => {
 				height: '100%',
 				position: 'absolute',
 				top: 0,
-				left: 0,
-				zIndex: props.priority
+				left: 0
 			}}
 		/>
 	)

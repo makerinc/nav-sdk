@@ -1,4 +1,4 @@
-import { Product, registry } from '../../index';
+import { Product, registry, Image } from '../../index';
 import React from '../../react';
 
 type Props = {
@@ -14,6 +14,13 @@ export const Component = (props: Props) => {
 
 	return (
 		<div>
+			<div style={{
+				position: 'relative',
+				aspectRatio: '16/9',
+				width: '100%',
+			}}>
+				<Image src={props.data.variants[0].imageLink} alt={props.data.title} fit="cover" priority={1} />
+			</div>
 			<div>
 				{props.data.title}
 			</div>
