@@ -1,9 +1,11 @@
-export type MetadataValue = {
-	_0: string | number | undefined;
-}
 
-export type Metadata = {
-	[key: string]: MetadataValue;
+export type Product = {
+	id: string;
+	title: string;
+	link?: string;
+	productType: string;
+	variants: Variant[];
+	metadata?: Metadata;
 }
 
 export type Variant = {
@@ -42,11 +44,10 @@ export type Variant = {
 	currency?: string;
 };
 
-export type Product = {
-	id: string;
-	title: string;
-	link?: string;
-	productType: string;
-	variants: Variant[];
-	metadata?: Metadata;
+export type Metadata = {
+	[key: string]: MetadataValue;
+}
+
+export type MetadataValue = {
+	_0: string | number | undefined;
 }
