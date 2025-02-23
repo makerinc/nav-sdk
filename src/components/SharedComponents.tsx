@@ -2,15 +2,18 @@ import React from '../../react';
 import { Props as ImageProps } from './shared/Image';
 import { Props as VideoProps } from './shared/Video';
 
-type ContextType = {
+export type ContextType = {
 	renderImage: ((props: ImageProps) => React.JSX.Element) | undefined;
 	renderVideo: ((props: VideoProps) => React.JSX.Element) | undefined;
 };
 
-const Context = React.createContext<ContextType>({
+
+window.__MAKER_SHARED_COMPONENTS_CONTEXT__ = window.__MAKER_SHARED_COMPONENTS_CONTEXT__ || React.createContext<ContextType>({
 	renderImage: undefined,
 	renderVideo: undefined,
 });
+
+const Context = window.__MAKER_SHARED_COMPONENTS_CONTEXT__;
 
 type ProviderProps = React.PropsWithChildren<{
 	renderImage: ((props: ImageProps) => React.JSX.Element) | undefined;
