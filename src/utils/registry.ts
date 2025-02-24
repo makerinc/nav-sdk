@@ -32,7 +32,6 @@ type RegisteredComponent<T extends keyof ContentTypeMapping> = {
 
 export class ComponentRegistry {
 	private components = new Map<string, RegisteredComponent<keyof ContentTypeMapping>>();
-	private contentTypeMap = new Map<keyof ContentTypeMapping, Set<string>>();
 
 	private constructor() {
 		if (typeof window === 'undefined') {
@@ -55,10 +54,6 @@ export class ComponentRegistry {
 					render
 				} as RegisteredComponent<keyof ContentTypeMapping>);
 
-				if (!this.contentTypeMap.has(contentType)) {
-					this.contentTypeMap.set(contentType, new Set());
-				}
-				this.contentTypeMap.get(contentType)!.add(componentId);
 
 				window.dispatchEvent(
 					new CustomEvent(EVENTS.REGISTERED, {
@@ -69,13 +64,6 @@ export class ComponentRegistry {
 			unregister: (componentId: string) => {
 				const component = this.components.get(componentId);
 				if (component) {
-					const typeSet = this.contentTypeMap.get(component.contentType);
-					if (typeSet) {
-						typeSet.delete(componentId);
-						if (typeSet.size === 0) {
-							this.contentTypeMap.delete(component.contentType);
-						}
-					}
 					this.components.delete(componentId);
 
 					window.dispatchEvent(
