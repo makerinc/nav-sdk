@@ -61,6 +61,6 @@ export default MyCustomProductCard;
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| type | 'product' \| 'category' | The type of the component, this determines the type of data that will be passed to your component. |
-| id | string | The id of the component, this will be used to tell Nav which component to render in a specific node or section. It must be unique for each custom component. |
-| component | ({ data }) => JSX.Element | React component to be rendered by Nav. `data` will be of type [`Product`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Product.ts) or [`Category`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Category.ts) depending on the `type` parameter.
+| type | `'product-card' \| 'category-card' \| 'banner' \| 'products-section' \| 'categories-section' \| 'banners-section'` | The type of component to be registered. This influences the type of data passed to your component. <br><br>See [`ComponentTypeMapping`](https://github.com/makerinc/nav-sdk/blob/main/src/types/ComponentTypeMapping.ts) for available types.
+| id | `string` | The id of the component, this will be used to tell Nav which component to render in a specific node or section. <br><br>It must be unique for each custom component. |
+| component | `({ data }) => JSX.Element` | React component to be rendered by Nav. <br><br>`data` will be of type [`Product`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Product.ts), [`Category`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Category.ts) or [`Banner`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Banner.ts) depending on the `type` parameter.

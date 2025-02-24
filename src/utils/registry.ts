@@ -1,37 +1,32 @@
 import React from "../../react";
-import { Product, Category } from '../types';
+import { ComponentTypeMapping } from "../types";
 import { injectImportMap } from './importmap';
-
-export type ContentTypeMapping = {
-	product: Product;
-	category: Category;
-};
 
 export const EVENTS = {
 	REGISTERED: "maker-nav-component-registered",
 	UNREGISTERED: "maker-nav-component-unregistered"
 }
 
-type CustomComponentProps<T extends keyof ContentTypeMapping> = {
-	data: ContentTypeMapping[T];
+type CustomComponentProps<T extends keyof ComponentTypeMapping> = {
+	data: ComponentTypeMapping[T];
 };
 
-export type CustomComponent<T extends keyof ContentTypeMapping> = (props: CustomComponentProps<T>) => React.JSX.Element
+export type CustomComponent<T extends keyof ComponentTypeMapping> = (props: CustomComponentProps<T>) => React.JSX.Element
 
-export type RegisterFunction = <T extends keyof ContentTypeMapping>(
+export type RegisterFunction = <T extends keyof ComponentTypeMapping>(
 	contentType: T,
 	componentId: string,
 	render: CustomComponent<T>
 ) => void;
 
-type RegisteredComponent<T extends keyof ContentTypeMapping> = {
+type RegisteredComponent<T extends keyof ComponentTypeMapping> = {
 	contentType: T;
 	render: CustomComponent<T>;
 };
 
 
 export class ComponentRegistry {
-	private components = new Map<string, RegisteredComponent<keyof ContentTypeMapping>>();
+	private components = new Map<string, RegisteredComponent<keyof ComponentTypeMapping>>();
 
 	private constructor() {
 		if (typeof window === 'undefined') {
@@ -44,7 +39,7 @@ export class ComponentRegistry {
 		injectImportMap()
 
 		window.__MAKER_NAV_COMPONENT_REGISTRY__ = {
-			register: <T extends keyof ContentTypeMapping>(
+			register: <T extends keyof ComponentTypeMapping>(
 				contentType: T,
 				componentId: string,
 				render: CustomComponent<T>
@@ -52,7 +47,7 @@ export class ComponentRegistry {
 				this.components.set(componentId, {
 					contentType,
 					render
-				} as RegisteredComponent<keyof ContentTypeMapping>);
+				} as RegisteredComponent<keyof ComponentTypeMapping>);
 
 
 				window.dispatchEvent(
@@ -95,7 +90,7 @@ export class ComponentRegistry {
 		return instance;
 	}
 
-	public register<T extends keyof ContentTypeMapping>(
+	public register<T extends keyof ComponentTypeMapping>(
 		contentType: T,
 		componentId: string,
 		render: CustomComponent<T>

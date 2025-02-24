@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ContentTypeMapping, CustomComponent, RegisterFunction, ComponentRegistry } from "../utils/registry";
+import { ComponentTypeMapping } from "../types";
+import { CustomComponent, RegisterFunction, ComponentRegistry } from "../utils/registry";
 import { ContextType as SharedComponentsContext } from "../components/SharedComponents";
 
 
@@ -12,8 +13,8 @@ declare global {
 			unregister: (componentId: string) => void,
 			list: () => Array<{
 				componentId: string;
-				contentType: keyof ContentTypeMapping;
-				render: CustomComponent<keyof ContentTypeMapping>;
+				contentType: keyof ComponentTypeMapping;
+				render: CustomComponent<keyof ComponentTypeMapping>;
 			}>;
 		};
 		__MAKER_COMPONENT_REGISTRY_INSTANCE__?: ComponentRegistry;
