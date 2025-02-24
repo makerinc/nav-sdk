@@ -31,7 +31,6 @@ type RegisteredComponent<T extends keyof ContentTypeMapping> = {
 
 
 export class ComponentRegistry {
-	private static instance: ComponentRegistry;
 	private components = new Map<string, RegisteredComponent<keyof ContentTypeMapping>>();
 	private contentTypeMap = new Map<keyof ContentTypeMapping, Set<string>>();
 
