@@ -30,7 +30,7 @@ type RegisteredComponent<T extends keyof ContentTypeMapping> = {
 };
 
 
-class ComponentRegistry {
+export class ComponentRegistry {
 	private static instance: ComponentRegistry;
 	private components = new Map<string, RegisteredComponent<keyof ContentTypeMapping>>();
 	private contentTypeMap = new Map<keyof ContentTypeMapping, Set<string>>();
@@ -97,12 +97,16 @@ class ComponentRegistry {
 	}
 
 	public static getInstance(): ComponentRegistry {
-		if (!ComponentRegistry.instance) {
-			ComponentRegistry.instance = new ComponentRegistry();
+		if (typeof window !== 'undefined' && window.__MAKER_COMPONENT_REGISTRY_INSTANCE__) {
+			return window.__MAKER_COMPONENT_REGISTRY_INSTANCE__;
 		}
-		return ComponentRegistry.instance;
-	}
 
+		const instance = new ComponentRegistry();
+		if (typeof window !== 'undefined') {
+			window.__MAKER_COMPONENT_REGISTRY_INSTANCE__ = instance;
+		}
+		return instance;
+	}
 
 	public register<T extends keyof ContentTypeMapping>(
 		contentType: T,

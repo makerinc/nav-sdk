@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ContentTypeMapping, CustomComponent, RegisterFunction } from "../utils/registry";
+import { ContentTypeMapping, CustomComponent, RegisterFunction, ComponentRegistry } from "../utils/registry";
 import { ContextType as SharedComponentsContext } from "../components/SharedComponents";
 
 
@@ -16,5 +16,6 @@ declare global {
 				render: CustomComponent<keyof ContentTypeMapping>;
 			}>;
 		};
+		__MAKER_COMPONENT_REGISTRY_INSTANCE__?: ComponentRegistry;
 	}
 }
