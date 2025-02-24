@@ -20,10 +20,10 @@ export type Variant = {
 	description: string;
 	groupId: string;
 	id: string;
-	imageSize?: number[];
-	additionalImageSizes?: Array<number[]>;
 	imageLink: string;
-	moreImageLinks: string;
+	imageSize?: [number, number] | undefined;
+	additionalImageLinks: string[];
+	additionalImageSizes?: Array<[number, number] | undefined>;
 	customLabel0?: string;
 	customLabel1?: string;
 	customLabel2?: string;
