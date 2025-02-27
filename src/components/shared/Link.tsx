@@ -46,11 +46,11 @@ const SimpleLink = ({ children, ...props }: SimpleLinkProps) => (
 	<a {...props}>{children}</a>
 );
 
-const ProductLink = ({ productId, href, children, target, ...props }: ProductLinkProps) => {
+const ProductLink = ({ productId, variantId, categoryId, href, children, target, ...props }: ProductLinkProps) => {
 	const { renderProductLink } = SharedComponents.useContext();
 
 	if (typeof renderProductLink === "function") {
-		return <Spread props={props}>{renderProductLink({ productId, href, children, target })}</Spread>;
+		return <Spread props={props}>{renderProductLink({ productId, variantId, categoryId, href, children, target })}</Spread>;
 	}
 
 	return <SimpleLink href={href} target="_top" {...props}>{children}</SimpleLink>;
