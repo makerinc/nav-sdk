@@ -1,4 +1,10 @@
+import React from "../../../react";
+
 import SharedComponents from "../SharedComponents";
+
+const Spread = ({ props, children }: { props: React.PropsWithChildren<any>, children: React.ReactElement }) => {
+	return React.cloneElement(children, { ...props });
+};
 
 type CustomTarget = "_self" | "_blank" | "_parent" | "_top" | "product" | "category";
 
@@ -43,7 +49,7 @@ const ProductLink = ({ productId, href, children, target, ...props }: ProductLin
 	const { renderProductLink } = SharedComponents.useContext();
 
 	if (typeof renderProductLink === "function") {
-		return renderProductLink({ productId, href, children, target });
+		return <Spread props={props}>{renderProductLink({ productId, href, children, target })}</Spread>;
 	}
 
 	return <SimpleLink href={href} target="_top" {...props}>{children}</SimpleLink>;
@@ -53,7 +59,7 @@ const CategoryLink = ({ categoryId, href, children, target, ...props }: Category
 	const { renderCategoryLink } = SharedComponents.useContext();
 
 	if (typeof renderCategoryLink === "function") {
-		return renderCategoryLink({ categoryId, href, children, target });
+		return <Spread props={props}>{renderCategoryLink({ categoryId, href, children, target })}</Spread>;
 	}
 
 	return <SimpleLink href={href} target="_top" {...props}>{children}</SimpleLink>;
