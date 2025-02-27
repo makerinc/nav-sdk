@@ -6,7 +6,7 @@ export type SimpleLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 	target?: Exclude<CustomTarget, "product" | "category">;
 };
 
-export type ProductLinkProps = {
+export type ProductLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 	target: "product";
 	productId: string;
 	variantId?: string;
@@ -14,7 +14,7 @@ export type ProductLinkProps = {
 	children?: React.ReactNode;
 };
 
-export type CategoryLinkProps = {
+export type CategoryLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 	target: "category";
 	categoryId: string;
 	href?: string;
@@ -39,24 +39,24 @@ const SimpleLink = ({ children, ...props }: SimpleLinkProps) => (
 	<a {...props}>{children}</a>
 );
 
-const ProductLink = ({ productId, href, children, target }: ProductLinkProps) => {
+const ProductLink = ({ productId, href, children, target, ...props }: ProductLinkProps) => {
 	const { renderProductLink } = SharedComponents.useContext();
 
 	if (typeof renderProductLink === "function") {
 		return renderProductLink({ productId, href, children, target });
 	}
 
-	return <SimpleLink href={href} target="_top">{children}</SimpleLink>;
+	return <SimpleLink href={href} target="_top" {...props}>{children}</SimpleLink>;
 };
 
-const CategoryLink = ({ categoryId, href, children, target }: CategoryLinkProps) => {
+const CategoryLink = ({ categoryId, href, children, target, ...props }: CategoryLinkProps) => {
 	const { renderCategoryLink } = SharedComponents.useContext();
 
 	if (typeof renderCategoryLink === "function") {
 		return renderCategoryLink({ categoryId, href, children, target });
 	}
 
-	return <SimpleLink href={href} target="_top">{children}</SimpleLink>;
+	return <SimpleLink href={href} target="_top" {...props}>{children}</SimpleLink>;
 };
 
 export default Link;
