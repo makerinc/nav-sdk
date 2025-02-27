@@ -1,4 +1,4 @@
-import { Product, registry, Image } from '../../index';
+import { Product, registry, Image, Link } from '../../index';
 import React from '../../react';
 
 type Props = {
@@ -13,19 +13,24 @@ export const Component = (props: Props) => {
 	};
 
 	return (
-		<div>
-			<div style={{
-				position: 'relative',
-				aspectRatio: '16/9',
-				width: '100%',
-			}}>
-				<Image src={props.data.variants[0].imageLink} alt={props.data.title} fit="cover" priority={1} />
-			</div>
+		<Link target="product" productId={props.data.id} href={props.data.link}>
 			<div>
-				{props.data.title}
+				<div style={{
+					position: 'relative',
+					aspectRatio: '16/9',
+					width: '100%',
+				}}>
+					<Image src={props.data.variants[0].imageLink} alt={props.data.title} fit="cover" priority={1} />
+				</div>
+				<div>
+					{props.data.title}
+				</div>
+				<button onClick={handleClick}>Clicked {state} times</button>
+				<Link href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
+					Open Product
+				</Link>
 			</div>
-			<button onClick={handleClick}>Clicked {state} times</button>
-		</div>
+		</Link>
 	)
 }
 

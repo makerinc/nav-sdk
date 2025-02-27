@@ -10,6 +10,7 @@ A React toolkit to help you build custom components for [Maker Nav](https://make
   - [`registry.register(type, id, component)`](#registryregistertype-id-component)
   - [`<Image />`](#image-)
   - [`<Video />`](#video-)
+  - [`<Link />`](#link-)
 
 ## Installation
 
@@ -80,7 +81,7 @@ export default MyCustomProductCard;
 
 Import it like this `import { Image } from '@makerinc/nav-sdk'`
 
-> We highly recommend using the Image component in your custom Nav components, it is optimized for performance with features like lazy-loading, CDN caching and viewport based queueing & prioritization.
+Optimized for performance with features like lazy-loading, CDN caching and viewport based queueing & prioritization.
 
 | Prop | Type | Description |
 | --- | --- | --- |
@@ -95,6 +96,8 @@ Import it like this `import { Image } from '@makerinc/nav-sdk'`
 
 Import it like this `import { Video } from '@makerinc/nav-sdk'`.
 
+Allows queuing and autoplaying of visible videos one by one and progressively loads the video instead of all at once. It also supports HLS format.
+
 | Prop | Type | Description |
 | --- | --- | --- |
 | src | `string` | The URL of the video. |
@@ -105,3 +108,19 @@ Import it like this `import { Video } from '@makerinc/nav-sdk'`.
 | poster | `string` | The URL of the poster image. |
 | fit | `'cover' \| 'contain' \| 'scale-down'` | The fit of the video.
 
+---
+
+### `<Link />`
+
+Import it like this `import { Link } from '@makerinc/nav-sdk'`
+
+Allows internal navigation to listing page or opening external link with built-in analytics tracking.
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| target | `'product' \| 'category' \| '_self' \| '_blank' \| '_parent' \| '_top'` | The target of the link. When target is `product` or `category`, Nav will perform internal navigation to listing page rather than opening external link. |
+| productId | `string` | The id of the product to link to. Required only when target is set to `product` |
+| variantId | `string \| undefined` | The id of the variant to link to. Required only when target is set to `product` |
+| categoryId | `string` | The id of the category to link to. Required only when target is set to `category` |
+| href | `string` | The URL to link to. |
+| children | `React.ReactNode` | The children of the link. |
