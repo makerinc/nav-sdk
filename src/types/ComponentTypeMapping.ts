@@ -7,4 +7,5 @@ export type ComponentTypeMapping = {
 	"categories-section": Category[];
 	"products-section": Product[];
 	"banners-section": Banner[];
+	"custom-section": any;
 };
