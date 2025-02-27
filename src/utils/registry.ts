@@ -9,15 +9,12 @@ export const EVENTS = {
 
 type CustomComponentProps<T extends keyof ComponentTypeMapping> = {
 	data: ComponentTypeMapping[T];
-};
+	[key: string]: unknown;
+}
 
-export type CustomComponent<T extends keyof ComponentTypeMapping> = (props: CustomComponentProps<T>) => React.JSX.Element
-
-export type RegisterFunction = <T extends keyof ComponentTypeMapping>(
-	contentType: T,
-	componentId: string,
-	render: CustomComponent<T>
-) => void;
+export type CustomComponent<T extends keyof ComponentTypeMapping> = (
+	props: CustomComponentProps<T>
+) => React.JSX.Element;
 
 type RegisteredComponent<T extends keyof ComponentTypeMapping> = {
 	contentType: T;
