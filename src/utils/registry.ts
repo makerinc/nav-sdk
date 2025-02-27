@@ -12,6 +12,12 @@ type CustomComponentProps<T extends keyof ComponentTypeMapping> = {
 	[key: string]: unknown;
 }
 
+export type RegisterFunction = <T extends keyof ComponentTypeMapping>(
+	contentType: T,
+	componentId: string,
+	render: CustomComponent<T>
+) => void;
+
 export type CustomComponent<T extends keyof ComponentTypeMapping> = (
 	props: CustomComponentProps<T>
 ) => React.JSX.Element;
