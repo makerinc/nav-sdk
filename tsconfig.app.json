@@ -26,8 +26,7 @@
     "composite": true
   },
   "include": [
-    "src",
-    "index.ts",
-    "react.ts"
+    "src/**/*",
+    "./*.ts"
   ]
 }
