@@ -4,6 +4,7 @@ export type Product = {
 	title: string;
 	link?: string;
 	productType: string;
+	categoryId: string;
 	variants: Variant[];
 	metadata?: Metadata;
 }

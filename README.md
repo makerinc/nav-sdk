@@ -121,6 +121,6 @@ Allows internal navigation to listing page or opening external link with built-i
 | target | `'product' \| 'category' \| '_self' \| '_blank' \| '_parent' \| '_top'` | The target of the link. When target is `product` or `category`, Nav will perform internal navigation to listing page rather than opening external link. |
 | productId | `string` | The id of the product to link to. Required only when target is set to `product` |
 | variantId | `string \| undefined` | The id of the variant to link to. Required only when target is set to `product` |
-| categoryId | `string` | The id of the category to link to. Required only when target is set to `category` |
+| categoryId | `string` | The id of the category to link to. Required only when target is set to `category` or `product` |
 | href | `string` | The URL to link to. |
 | children | `React.ReactNode` | The children of the link. |

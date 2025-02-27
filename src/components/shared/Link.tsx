@@ -16,6 +16,7 @@ export type ProductLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 	target: "product";
 	productId: string;
 	variantId?: string;
+	categoryId?: string;
 	href?: string;
 	children?: React.ReactNode;
 };

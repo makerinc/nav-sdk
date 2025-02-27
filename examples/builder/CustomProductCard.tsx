@@ -13,7 +13,7 @@ export const Component = (props: Props) => {
 	};
 
 	return (
-		<Link target="product" productId={props.data.id} href={props.data.link}>
+		<Link target="product" productId={props.data.id} categoryId={props.data.categoryId} href={props.data.link}>
 			<div>
 				<div style={{
 					position: 'relative',
