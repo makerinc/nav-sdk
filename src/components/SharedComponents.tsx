@@ -1,7 +1,7 @@
 import React from '../../react';
-import { Props as ImageProps } from './shared/Image';
-import { Props as VideoProps } from './shared/Video';
-import { ProductLinkProps, CategoryLinkProps } from './shared/Link';
+import { Props as ImageProps } from './shared/NavImage';
+import { Props as VideoProps } from './shared/NavVideo';
+import { ProductLinkProps, CategoryLinkProps } from './shared/NavLink';
 
 export type ContextType = {
 	renderImage: ((props: ImageProps) => React.JSX.Element) | undefined;

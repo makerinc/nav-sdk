@@ -8,9 +8,9 @@ A React toolkit to help you build custom components for [Maker Nav](https://make
 - [Usage](#usage)
 - [API](#api)
   - [`registry.register(type, id, component)`](#registryregistertype-id-component)
-  - [`<Image />`](#image-)
-  - [`<Video />`](#video-)
-  - [`<Link />`](#link-)
+  - [`<NavImage />`](#navimage-)
+  - [`<NavVideo />`](#navvideo-)
+  - [`<NavLink />`](#navlink-)
 
 ## Installation
 
@@ -69,6 +69,10 @@ export default MyCustomProductCard;
 ## API
 ### `registry.register(type, id, component)`
 
+Import it like this `import { registry } from '@makerinc/nav-sdk'`
+
+This is the main entrypoint for your custom components to be registered with Nav.
+
 | Parameter | Type | Description |
 | --- | --- | --- |
 | type | `'product-card' \| 'category-card' \| 'banner' \| 'products-section' \| 'categories-section' \| 'banners-section'` and [more...](https://github.com/makerinc/nav-sdk/blob/main/src/types/ComponentTypeMapping.ts) | The type of component to be registered. This influences the type of data passed to your component.
@@ -77,9 +81,9 @@ export default MyCustomProductCard;
 
 ---
 
-### `<Image />`
+### `<NavImage />`
 
-Import it like this `import { Image } from '@makerinc/nav-sdk'`
+Import it like this `import { NavImage } from '@makerinc/nav-sdk'`
 
 Optimized for performance with features like lazy-loading, CDN caching and viewport based queueing & prioritization.
 
@@ -92,11 +96,11 @@ Optimized for performance with features like lazy-loading, CDN caching and viewp
 
 ---
 
-### `<Video />`
+### `<NavVideo />`
 
-Import it like this `import { Video } from '@makerinc/nav-sdk'`.
+Import it like this `import { NavVideo } from '@makerinc/nav-sdk'`.
 
-Allows queuing and autoplaying of visible videos one by one and progressively loads the video instead of all at once. It also supports HLS format.
+Allows queuing and autoplaying of visible videos one by one and progressively loads the videos on a page instead of all at once. Along with standard web video formats, it also supports HLS format - you just need to provide the HLS URL in `src`!
 
 | Prop | Type | Description |
 | --- | --- | --- |
@@ -110,9 +114,9 @@ Allows queuing and autoplaying of visible videos one by one and progressively lo
 
 ---
 
-### `<Link />`
+### `<NavLink />`
 
-Import it like this `import { Link } from '@makerinc/nav-sdk'`
+Import it like this `import { NavLink } from '@makerinc/nav-sdk'`
 
 Allows internal navigation to listing page or opening external link with built-in analytics tracking.
 
