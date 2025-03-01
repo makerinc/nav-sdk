@@ -5,7 +5,7 @@ type ReactNode = React.ReactNode;
 
 
 type Props = {
-	fallback: ReactNode;
+	renderFallback: () => ReactNode;
 	children: ReactNode;
 };
 
@@ -28,7 +28,7 @@ class ErrorBoundary extends React.Component<Props, State> {
 
 	public render(): ReactNode {
 		if (this.state.hasError) {
-			return this.props.fallback;
+			return this.props.renderFallback();
 		}
 
 		return this.props.children;

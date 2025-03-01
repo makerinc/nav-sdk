@@ -6,10 +6,10 @@ import ErrorBoundary from './ErrorBoundary';
 type RendererProps = {
 	componentId: string;
 	data: Product | Category;
-	fallback: React.ReactElement;
+	renderFallback: () => React.ReactNode;
 };
 
-export function Renderer({ componentId, data, fallback }: RendererProps) {
+export function Renderer({ componentId, data, renderFallback }: RendererProps) {
 	const [_, setForceRender] = React.useState<number>(() => 0);
 
 	useRegistrationListener((data) => {
@@ -19,11 +19,11 @@ export function Renderer({ componentId, data, fallback }: RendererProps) {
 	const RenderComponent = registry.getRenderFunction(componentId)
 
 	if (typeof RenderComponent !== 'function') {
-		return fallback;
+		return renderFallback();
 	}
 
 	return (
-		<ErrorBoundary fallback={fallback}>
+		<ErrorBoundary renderFallback={renderFallback}>
 			{React.createElement(RenderComponent, { data })}
 		</ErrorBoundary>
 	);
