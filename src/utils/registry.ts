@@ -141,7 +141,7 @@ export function useRegistrationListener(callback: (data: EventDetail) => void) {
 
 		window.addEventListener(EVENTS.REGISTERED, handleEvent);
 		return () => {
-			window.removeEventListener(EVENTS.UNREGISTERED, handleEvent);
+			window.removeEventListener(EVENTS.REGISTERED, handleEvent);
 		};
 	}, []);
 }
