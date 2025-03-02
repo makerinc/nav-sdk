@@ -24,8 +24,15 @@ export type CustomComponent<T extends keyof ComponentTypeMapping> = (
 
 type RegisteredComponent<T extends keyof ComponentTypeMapping> = {
 	contentType: T;
+	componentUrl: string;
 	render: CustomComponent<T>;
 };
+
+export type EventDetail = {
+	contentType: string;
+	componentId: string;
+	componentUrl: string;
+}
 
 
 export class ComponentRegistry {
@@ -47,15 +54,19 @@ export class ComponentRegistry {
 				componentId: string,
 				render: CustomComponent<T>
 			) => {
+				let currentScript = document.currentScript as HTMLScriptElement | null;
+				let componentUrl = currentScript?.src || import.meta.url;
+
 				this.components.set(componentId, {
 					contentType,
+					componentUrl,
 					render
 				} as RegisteredComponent<keyof ComponentTypeMapping>);
 
 
 				window.dispatchEvent(
-					new CustomEvent(EVENTS.REGISTERED, {
-						detail: { contentType, componentId }
+					new CustomEvent<EventDetail>(EVENTS.REGISTERED, {
+						detail: { contentType, componentId, componentUrl: componentUrl }
 					})
 				);
 			},
@@ -74,6 +85,7 @@ export class ComponentRegistry {
 			list: () => {
 				return Array.from(this.components.entries()).map(([componentId, component]) => ({
 					componentId: componentId,
+					componentUrl: component.componentUrl,
 					contentType: component.contentType,
 					render: component.render
 				}));
@@ -120,10 +132,11 @@ export class ComponentRegistry {
 
 export const registry = ComponentRegistry.getInstance();
 
-export function useRegistrationListener(callback: (componentId: string) => void) {
+export function useRegistrationListener(callback: (data: EventDetail) => void) {
 	React.useEffect(() => {
 		const handleEvent = (e: any) => {
-			callback(e.detail.componentId);
+			const data = e as CustomEvent<EventDetail>;
+			callback(data.detail);
 		};
 
 		window.addEventListener(EVENTS.REGISTERED, handleEvent);

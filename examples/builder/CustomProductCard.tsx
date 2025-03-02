@@ -1,4 +1,4 @@
-import { Product, registry, Image, Link } from '../../index';
+import { Product, registry, NavImage, NavLink } from '../../index';
 import React from '../../react';
 
 type Props = {
@@ -13,24 +13,24 @@ export const Component = (props: Props) => {
 	};
 
 	return (
-		<Link target="product" productId={props.data.id} categoryId={props.data.categoryId} href={props.data.link}>
+		<NavLink target="product" productId={props.data.id} categoryId={props.data.categoryId} href={props.data.link}>
 			<div>
 				<div style={{
 					position: 'relative',
 					aspectRatio: '16/9',
 					width: '100%',
 				}}>
-					<Image src={props.data.variants[0].imageLink} alt={props.data.title} fit="cover" priority={1} />
+					<NavImage src={props.data.variants[0].imageLink} alt={props.data.title} fit="cover" priority={1} />
 				</div>
 				<div>
 					{props.data.title}
 				</div>
 				<button onClick={handleClick}>Clicked {state} times</button>
-				<Link href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
+				<NavLink href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
 					Open Product
-				</Link>
+				</NavLink>
 			</div>
-		</Link>
+		</NavLink>
 	)
 }
 
