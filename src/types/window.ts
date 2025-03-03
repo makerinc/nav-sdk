@@ -18,5 +18,6 @@ declare global {
 			}>;
 		};
 		__MAKER_COMPONENT_REGISTRY_INSTANCE__?: ComponentRegistry;
+		__MAKER_NAV_LOGGING_ENABLED__?: boolean;
 	}
 }

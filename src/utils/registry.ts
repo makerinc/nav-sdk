@@ -1,6 +1,7 @@
 import React from "../../react";
 import { ComponentTypeMapping } from "../types";
 import { injectImportMap } from './importmap';
+import { log } from './logging';
 
 export const EVENTS = {
 	REGISTERED: "maker-nav-component-registered",
@@ -38,10 +39,17 @@ const getCallerModuleUrl = (): string | undefined => {
 	const err = new Error();
 	const stackLines = err.stack?.split("\n") || [];
 
+	log("getCallerModuleUrl stack lines", stackLines);
+
 	const lastStackLine = stackLines[stackLines.length - 1];
 	if (!lastStackLine) return;
 
+	log("getCallerModuleUrl last stack line", lastStackLine);
+
 	const match = lastStackLine.match(/(https?:\/\/[^:\n]+(:\d+)?(?:\/[^\n:]+)*)(?::\d+:\d+)?/);
+
+	log("getCallerModuleUrl match", match);
+
 	if (match) return match[1];
 }
 
