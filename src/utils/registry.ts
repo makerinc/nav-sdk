@@ -14,7 +14,7 @@ type CustomComponentProps<T extends keyof ComponentTypeMapping> = {
 }
 
 export type RegisterFunction = <T extends keyof ComponentTypeMapping>(
-	contentType: T,
+	componentType: T,
 	componentId: string,
 	render: CustomComponent<T>
 ) => void;
@@ -24,13 +24,13 @@ export type CustomComponent<T extends keyof ComponentTypeMapping> = (
 ) => React.JSX.Element;
 
 type RegisteredComponent<T extends keyof ComponentTypeMapping> = {
-	contentType: T;
+	componentType: T;
 	componentUrl: string;
 	render: CustomComponent<T>;
 };
 
 export type EventDetail = {
-	contentType: string;
+	componentType: string;
 	componentId: string;
 	componentUrl: string;
 }
@@ -68,14 +68,14 @@ export class ComponentRegistry {
 
 		window.__MAKER_NAV_COMPONENT_REGISTRY__ = {
 			register: <T extends keyof ComponentTypeMapping>(
-				contentType: T,
+				componentType: T,
 				componentId: string,
 				render: CustomComponent<T>
 			) => {
 				let componentUrl = getCallerModuleUrl() || import.meta.url;
 
 				this.components.set(componentId, {
-					contentType,
+					componentType,
 					componentUrl,
 					render
 				} as RegisteredComponent<keyof ComponentTypeMapping>);
@@ -83,7 +83,7 @@ export class ComponentRegistry {
 
 				window.dispatchEvent(
 					new CustomEvent<EventDetail>(EVENTS.REGISTERED, {
-						detail: { contentType, componentId, componentUrl: componentUrl }
+						detail: { componentType, componentId, componentUrl: componentUrl }
 					})
 				);
 			},
@@ -103,7 +103,7 @@ export class ComponentRegistry {
 				return Array.from(this.components.entries()).map(([componentId, component]) => ({
 					componentId: componentId,
 					componentUrl: component.componentUrl,
-					contentType: component.contentType,
+					componentType: component.componentType,
 					render: component.render
 				}));
 			}
@@ -123,12 +123,12 @@ export class ComponentRegistry {
 	}
 
 	public register<T extends keyof ComponentTypeMapping>(
-		contentType: T,
+		componentType: T,
 		componentId: string,
 		render: CustomComponent<T>
 	): void {
 		if (this.isRegistryAvailable()) {
-			window.__MAKER_NAV_COMPONENT_REGISTRY__!.register(contentType, componentId, render);
+			window.__MAKER_NAV_COMPONENT_REGISTRY__!.register(componentType, componentId, render);
 		}
 	}
 

@@ -13,7 +13,7 @@ declare global {
 			unregister: (componentId: string) => void,
 			list: () => Array<{
 				componentId: string;
-				contentType: keyof ComponentTypeMapping;
+				componentType: keyof ComponentTypeMapping;
 				render: CustomComponent<keyof ComponentTypeMapping>;
 			}>;
 		};
