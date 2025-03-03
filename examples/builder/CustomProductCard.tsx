@@ -1,15 +1,15 @@
-import { Product, registry, NavImage, NavLink } from '../../index';
+import { DataType, registry, NavImage, NavLink } from '../../index';
 import React from '../../react';
 
 type Props = {
-	data: Product;
+	data: DataType.Product;
 }
 
 export const Component = (props: Props) => {
-	let [state, setState] = React.useState(0);
+	let [count, setCount] = React.useState(0);
 
 	const handleClick = () => {
-		setState(state + 1);
+		setCount(count + 1);
 	};
 
 	return (
@@ -28,6 +28,7 @@ export const Component = (props: Props) => {
 				<NavLink href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
 					Open Product
 				</NavLink>
+				<button onClick={handleClick}>Clicked {count} times</button>
 			</div>
 		</NavLink>
 	)

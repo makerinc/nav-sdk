@@ -1,5 +1,10 @@
 // For builder
-export type { Product, Category } from './src/types'
+import type { Product as DataTypeProduct, Category as DataTypeCategory, Banner as DataTypeBanner } from './src/types';
+export namespace DataType {
+	export type Product = DataTypeProduct;
+	export type Category = DataTypeCategory;
+	export type Banner = DataTypeBanner;
+}
 export { registry } from './src/utils/registry'
 export { default as NavImage } from './src/components/shared/NavImage'
 export { default as NavVideo } from './src/components/shared/NavVideo'

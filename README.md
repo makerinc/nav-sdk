@@ -34,10 +34,10 @@ Register your custom components using the provided `registry.register()` functio
 
 ```tsx
 import React from "@makerinc/nav-sdk/react"; // ⚠️ see note below
-import { registry, Product } from "@makerinc/nav-sdk";
+import { registry, DataType } from "@makerinc/nav-sdk";
 
 type Props = {
-  data: Product
+  data: DataType.Product
 }
 
 const MyCustomProductCard = ({data}: Props) => {
@@ -77,7 +77,7 @@ This is the main entrypoint for your custom components to be registered with Nav
 | --- | --- | --- |
 | type | `'product-card' \| 'category-card' \| 'banner' \| 'products-section' \| 'categories-section' \| 'banners-section'` and [more...](https://github.com/makerinc/nav-sdk/blob/main/src/types/ComponentTypeMapping.ts) | The type of component to be registered. This influences the type of data passed to your component.
 | id | `string` | The id of the component, this will be used to tell Nav which component to render in a specific node or section. <br><i>It must be unique for each custom component.</i> |
-| component | `({ data }) => JSX.Element` | React component to be rendered by Nav. <br>The `data` prop will be of type [`Product`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Product.ts), [`Category`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Category.ts) or [`Banner`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Banner.ts) depending on the `type` parameter.
+| component | `({ data }) => JSX.Element` | React component to be rendered by Nav. <br>The `data` prop will be of type [`DataType.Product`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Product.ts), [`DataType.Category`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Category.ts) or [`DataType.Banner`](https://github.com/makerinc/nav-sdk/blob/main/src/types/Banner.ts) depending on the `type` parameter.
 
 ---
 
