@@ -13,26 +13,28 @@ type CustomComponentProps<T extends keyof ComponentTypeMapping> = {
 	[key: string]: unknown;
 }
 
+export type CustomComponent<T extends keyof ComponentTypeMapping> = React.FC<CustomComponentProps<T>> & {
+	defaultProps?: Partial<CustomComponentProps<T>>;
+};
+
 export type RegisterFunction = <T extends keyof ComponentTypeMapping>(
 	componentType: T,
 	componentId: string,
 	render: CustomComponent<T>
 ) => void;
 
-export type CustomComponent<T extends keyof ComponentTypeMapping> = (
-	props: CustomComponentProps<T>
-) => React.JSX.Element;
-
 type RegisteredComponent<T extends keyof ComponentTypeMapping> = {
 	componentType: T;
 	componentUrl: string;
 	render: CustomComponent<T>;
+	defaultProps?: Partial<CustomComponentProps<T>>;
 };
 
 export type EventDetail = {
 	componentType: string;
 	componentId: string;
 	componentUrl: string;
+	defaultProps?: Partial<CustomComponentProps<keyof ComponentTypeMapping>>;
 }
 
 const getCallerModuleUrl = (): string | undefined => {
@@ -73,17 +75,18 @@ export class ComponentRegistry {
 				render: CustomComponent<T>
 			) => {
 				let componentUrl = getCallerModuleUrl() || import.meta.url;
+				let defaultProps = render.defaultProps;
 
 				this.components.set(componentId, {
 					componentType,
 					componentUrl,
-					render
+					render,
+					defaultProps
 				} as RegisteredComponent<keyof ComponentTypeMapping>);
-
 
 				window.dispatchEvent(
 					new CustomEvent<EventDetail>(EVENTS.REGISTERED, {
-						detail: { componentType, componentId, componentUrl: componentUrl }
+						detail: { componentType, componentId, componentUrl: componentUrl, defaultProps: defaultProps }
 					})
 				);
 			},
@@ -104,7 +107,8 @@ export class ComponentRegistry {
 					componentId: componentId,
 					componentUrl: component.componentUrl,
 					componentType: component.componentType,
-					render: component.render
+					render: component.render,
+					defaultProps: component.defaultProps
 				}));
 			}
 		};

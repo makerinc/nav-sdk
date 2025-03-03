@@ -3,6 +3,7 @@ import React from '../../react';
 
 type Props = {
 	data: DataType.Product;
+	test?: string
 }
 
 export const Component = (props: Props) => {
@@ -34,5 +35,8 @@ export const Component = (props: Props) => {
 	)
 }
 
+Component.defaultProps = {
+	test: "test"
+}
 
 registry.register('product-card', "my-custom-product-card", Component);
