@@ -149,7 +149,7 @@ export class ComponentRegistry {
 
 export const registry = ComponentRegistry.getInstance();
 
-export function useRegistrationListener(callback: (data: EventDetail) => void) {
+export function useRegistrationListener(callback: (data: EventDetail) => void, dependencies: any[] = []) {
 	React.useEffect(() => {
 		const handleEvent = (e: any) => {
 			const data = e as CustomEvent<EventDetail>;
@@ -160,5 +160,5 @@ export function useRegistrationListener(callback: (data: EventDetail) => void) {
 		return () => {
 			window.removeEventListener(EVENTS.REGISTERED, handleEvent);
 		};
-	}, []);
+	}, dependencies);
 }
