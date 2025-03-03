@@ -34,6 +34,16 @@ export type EventDetail = {
 	componentUrl: string;
 }
 
+const getCallerModuleUrl = (): string | undefined => {
+	const err = new Error();
+	const stackLines = err.stack?.split("\n") || [];
+
+	const lastStackLine = stackLines[stackLines.length - 1];
+	if (!lastStackLine) return;
+
+	const match = lastStackLine.match(/(https?:\/\/[^:\n]+(:\d+)?(?:\/[^\n:]+)*)(?::\d+:\d+)?/);
+	if (match) return match[1];
+}
 
 export class ComponentRegistry {
 	private components = new Map<string, RegisteredComponent<keyof ComponentTypeMapping>>();
@@ -54,8 +64,7 @@ export class ComponentRegistry {
 				componentId: string,
 				render: CustomComponent<T>
 			) => {
-				let currentScript = document.currentScript as HTMLScriptElement | null;
-				let componentUrl = currentScript?.src || import.meta.url;
+				let componentUrl = getCallerModuleUrl() || import.meta.url;
 
 				this.components.set(componentId, {
 					contentType,
