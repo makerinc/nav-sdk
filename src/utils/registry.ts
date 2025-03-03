@@ -38,6 +38,8 @@ const getCallerModuleUrl = (): string | undefined => {
 	const err = new Error();
 	const stackLines = err.stack?.split("\n") || [];
 
+	console.log("[getCallerModuleUrl] stack lines", stackLines); // TODO: remove
+
 	const lastStackLine = stackLines[stackLines.length - 1];
 	if (!lastStackLine) return;
 
