@@ -6,7 +6,7 @@ import ErrorBoundary from './ErrorBoundary';
 type RendererProps = {
 	componentId: string;
 	data: Product | Category;
-	renderFallback: () => React.ReactNode;
+	renderFallback: () => React.ReactElement;
 };
 
 export function Renderer({ componentId, data, renderFallback }: RendererProps) {

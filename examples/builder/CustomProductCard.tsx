@@ -25,7 +25,6 @@ export const Component = (props: Props) => {
 				<div>
 					{props.data.title}
 				</div>
-				<button onClick={handleClick}>Clicked {state} times</button>
 				<NavLink href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
 					Open Product
 				</NavLink>
@@ -33,5 +32,6 @@ export const Component = (props: Props) => {
 		</NavLink>
 	)
 }
+
 
 registry.register('product-card', "my-custom-product-card", Component);

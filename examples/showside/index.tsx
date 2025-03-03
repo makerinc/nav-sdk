@@ -42,11 +42,19 @@ const renderVideo = (props) => {
 	/>)
 }
 
+let renderCategoryLink = (props) => {
+	return (<a href={props.href}>{props.children}</a>)
+}
+
+let renderProductLink = (props) => {
+	return (<a href={props.href}>{props.children}</a>)
+}
+
 ReactDOM.render(
 	<React.StrictMode>
-		<SharedComponentsProvider renderImage={renderImage} renderVideo={renderVideo}>
+		<SharedComponentsProvider renderImage={renderImage} renderVideo={renderVideo} renderCategoryLink={renderCategoryLink} renderProductLink={renderProductLink}>
 			{mockProducts.map((product) =>
-				<Renderer key={product.id} componentId={"my-custom-product-card"} data={product} fallback={<div>No component found for componentId: my-custom-product-card</div>} />
+				<Renderer key={product.id} componentId={"my-custom-product-card"} data={product} renderFallback={() => <div>No component found for componentId: my-custom-product-card</div>} />
 			)}
 			<ComponentLoader url="/examples/builder/CustomProductCard.js" />
 		</SharedComponentsProvider>
