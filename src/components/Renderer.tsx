@@ -1,11 +1,11 @@
 import React from 'react';
-import { Product, Category } from '../types';
+import { DataType } from '../types';
 import { registry, useRegistrationListener } from '../utils/registry';
 import ErrorBoundary from './ErrorBoundary';
 
 type RendererProps = {
 	componentId: string;
-	data: Product | Category;
+	data: DataType.Product | DataType.Category;
 	renderFallback: () => React.ReactElement;
 };
 
