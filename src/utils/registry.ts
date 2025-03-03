@@ -46,7 +46,7 @@ const getCallerModuleUrl = (): string | undefined => {
 
 	log("getCallerModuleUrl last stack line", lastStackLine);
 
-	const match = lastStackLine.match(/(https?:\/\/[^:\n]+(:\d+)?(?:\/[^\n:]+)*)(?::\d+:\d+)?/);
+	const match = lastStackLine.match(/.*at\s+(https?:\/\/.*?(\.js|\.tsx|\.ts))(?::\d+:\d+)?.*/);
 
 	log("getCallerModuleUrl match", match);
 
