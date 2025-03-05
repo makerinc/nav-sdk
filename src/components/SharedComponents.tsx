@@ -10,14 +10,14 @@ export type ContextType = {
 	renderCategoryLink: ((props: CategoryLinkProps) => React.JSX.Element) | undefined;
 };
 
-window.__MAKER_SHARED_COMPONENTS_CONTEXT__ = window.__MAKER_SHARED_COMPONENTS_CONTEXT__ || React.createContext<ContextType>({
+window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__ = window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__ || React.createContext<ContextType>({
 	renderImage: undefined,
 	renderVideo: undefined,
 	renderProductLink: undefined,
 	renderCategoryLink: undefined,
 });
 
-const Context = window.__MAKER_SHARED_COMPONENTS_CONTEXT__;
+const Context = window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__;
 
 type ProviderProps = React.PropsWithChildren<{
 	renderImage: ((props: ImageProps) => React.JSX.Element) | undefined;

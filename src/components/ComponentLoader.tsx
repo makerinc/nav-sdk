@@ -14,7 +14,6 @@ export function ComponentLoader({ url, onLoad, onError }: Props) {
 	React.useEffect(() => {
 		return () => {
 			if (registeredComponentId) {
-				log("component loader unregistering component", registeredComponentId)
 				registry.unregister(registeredComponentId);
 			}
 		}
@@ -26,9 +25,14 @@ export function ComponentLoader({ url, onLoad, onError }: Props) {
 			return;
 		}
 
+		window.__MAKER_NAV_SCRIPT_RELOAD_COUNT__ = window.__MAKER_NAV_SCRIPT_RELOAD_COUNT__ || {};
+		window.__MAKER_NAV_SCRIPT_RELOAD_COUNT__[url] = (window.__MAKER_NAV_SCRIPT_RELOAD_COUNT__[url] ?? -1) + 1;
+
+		let reloadCount = window.__MAKER_NAV_SCRIPT_RELOAD_COUNT__?.[url];
+
 		const script = document.createElement("script");
 		script.type = "module";
-		script.src = url;
+		script.src = url + (reloadCount == 0 || reloadCount == undefined ? "" : "?v=" + reloadCount);
 
 		document.head.appendChild(script);
 

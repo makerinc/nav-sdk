@@ -112,13 +112,13 @@ export class ComponentRegistry {
 	}
 
 	public static getInstance(): ComponentRegistry {
-		if (typeof window !== 'undefined' && window.__MAKER_COMPONENT_REGISTRY_INSTANCE__) {
-			return window.__MAKER_COMPONENT_REGISTRY_INSTANCE__;
+		if (typeof window !== 'undefined' && window.__MAKER_NAV_COMPONENT_REGISTRY_INSTANCE__) {
+			return window.__MAKER_NAV_COMPONENT_REGISTRY_INSTANCE__;
 		}
 
 		const instance = new ComponentRegistry();
 		if (typeof window !== 'undefined') {
-			window.__MAKER_COMPONENT_REGISTRY_INSTANCE__ = instance;
+			window.__MAKER_NAV_COMPONENT_REGISTRY_INSTANCE__ = instance;
 		}
 		return instance;
 	}
