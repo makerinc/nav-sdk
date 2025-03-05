@@ -39,4 +39,4 @@ export function Provider({ renderImage, renderVideo, renderProductLink, renderCa
 export default {
 	Provider,
 	useContext
-};
+}

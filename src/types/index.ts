@@ -88,4 +88,4 @@ export type ComponentTypeMapping = {
 	"products-section": DataType.Product[];
 	"banners-section": DataType.Banner[];
 	"custom-section": any;
-};
+}

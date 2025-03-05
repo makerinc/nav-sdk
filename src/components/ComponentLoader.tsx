@@ -1,4 +1,5 @@
 import React from "../../react";
+import { registry, useRegisteredComponentByUrl } from "../utils/registry";
 
 type Props = {
 	url: string;
@@ -7,26 +8,40 @@ type Props = {
 };
 
 export function ComponentLoader({ url, onLoad, onError }: Props) {
+	let registeredComponentId = useRegisteredComponentByUrl(url)?.componentId
+
 	React.useEffect(() => {
-		try {
-			const script = document.createElement("script");
-			script.type = "module";
-			script.src = url;
-
-			document.body.appendChild(script);
-
-			script.onload = () => {
-				onLoad && onLoad();
-			};
-
-			script.onerror = (error) => {
-				onError && onError("Failed to load remote component");
-				console.error("Error loading remote component:", error);
-			};
-		} catch (error) {
-			onError && onError("Raised exception while injecting script");
-			console.error("Failed to load remote component:", error);
+		return () => {
+			if (registeredComponentId) {
+				registry.unregister(registeredComponentId);
+			}
 		}
+	}, [registeredComponentId])
+
+	React.useEffect(() => {
+		if (!!document?.head) {
+			// Potentially running on the server
+			return;
+		}
+
+		const script = document.createElement("script");
+		script.type = "module";
+		script.src = url;
+
+		document.head.appendChild(script);
+
+		script.onload = () => {
+			onLoad && onLoad();
+		};
+
+		script.onerror = (error) => {
+			onError && onError("Failed to load remote component");
+			console.error("Error loading remote component:", error);
+		};
+
+		return () => {
+			document.head.removeChild(script);
+		};
 	}, [url]);
 
 	return null;

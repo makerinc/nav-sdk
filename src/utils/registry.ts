@@ -23,7 +23,8 @@ export type RegisterFunction = <T extends keyof ComponentTypeMapping>(
 	render: CustomComponent<T>
 ) => void;
 
-type RegisteredComponent<T extends keyof ComponentTypeMapping> = {
+export type RegisteredComponent<T extends keyof ComponentTypeMapping> = {
+	componentId: string;
 	componentType: T;
 	componentUrl: string;
 	render: CustomComponent<T>;
@@ -142,8 +143,12 @@ export class ComponentRegistry {
 		}
 	}
 
-	public getRenderFunction(componentId: string): CustomComponent<any> | undefined {
-		return window.__MAKER_NAV_COMPONENT_REGISTRY__!.list().find(component => component.componentId === componentId)?.render
+	public getById(componentId: string): RegisteredComponent<keyof ComponentTypeMapping> | undefined {
+		return window.__MAKER_NAV_COMPONENT_REGISTRY__!.list().find(component => component.componentId === componentId)
+	}
+
+	public getByUrl(componentUrl: string): RegisteredComponent<keyof ComponentTypeMapping> | undefined {
+		return window.__MAKER_NAV_COMPONENT_REGISTRY__!.list().find(component => component.componentUrl === componentUrl)
 	}
 
 	public isRegistryAvailable(): boolean {
@@ -165,4 +170,28 @@ export function useRegistrationListener(callback: (data: EventDetail) => void, d
 			window.removeEventListener(EVENTS.REGISTERED, handleEvent);
 		};
 	}, dependencies);
+}
+
+export function useRegisteredComponentById(componentId: string) {
+	let initialValue = registry.getById(componentId)
+
+	let [registeredComponent, setRegisteredComponent] = React.useState<RegisteredComponent<keyof ComponentTypeMapping> | undefined>(initialValue);
+
+	useRegistrationListener((data) => {
+		data.componentId == componentId && setRegisteredComponent(registry.getById(componentId));
+	})
+
+	return registeredComponent
+}
+
+export function useRegisteredComponentByUrl(componentUrl: string) {
+	let initialValue = registry.getById(componentUrl)
+
+	let [registeredComponent, setRegisteredComponent] = React.useState<RegisteredComponent<keyof ComponentTypeMapping> | undefined>(initialValue);
+
+	useRegistrationListener((data) => {
+		data.componentUrl == componentUrl && setRegisteredComponent(registry.getByUrl(componentUrl));
+	})
+
+	return registeredComponent
 }
