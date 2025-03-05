@@ -26,11 +26,11 @@ type DataTypeProduct = {
 	link?: string;
 	productType: string;
 	categoryId: string;
-	variants: DataTypeVariant[];
-	metadata?: DataTypeMetadata;
+	variants: DataTypeProductVariant[];
+	metadata?: DataTypeProductMetadata;
 }
 
-type DataTypeVariant = {
+type DataTypeProductVariant = {
 	title: string;
 	size: string;
 	color: string;
@@ -62,20 +62,21 @@ type DataTypeVariant = {
 	brand?: string;
 	mpn?: string;
 	tags?: string[];
-	metadata?: DataTypeMetadata;
+	metadata?: DataTypeProductMetadata;
 	currency?: string;
 };
 
-type DataTypeMetadata = {
-	[key: string]: DataTypeMetadataValue;
+type DataTypeProductMetadata = {
+	[key: string]: DataTypeProductMetadataValue;
 }
 
-type DataTypeMetadataValue = {
+type DataTypeProductMetadataValue = {
 	_0: string | number | undefined;
 }
 
 export namespace DataType {
 	export type Product = DataTypeProduct;
+	export type ProductVariant = DataTypeProductVariant;
 	export type Category = DataTypeCategory;
 	export type Banner = DataTypeBanner;
 }
