@@ -1,5 +1,6 @@
 import React from "../../react";
 import { registry, useRegisteredComponentByUrl } from "../utils/registry";
+import { log } from '../utils/logging'
 
 type Props = {
 	url: string;
@@ -13,13 +14,14 @@ export function ComponentLoader({ url, onLoad, onError }: Props) {
 	React.useEffect(() => {
 		return () => {
 			if (registeredComponentId) {
+				log("component loader unregistering component", registeredComponentId)
 				registry.unregister(registeredComponentId);
 			}
 		}
 	}, [registeredComponentId])
 
 	React.useEffect(() => {
-		if (!!document?.head) {
+		if (!document?.head) {
 			// Potentially running on the server
 			return;
 		}
@@ -31,6 +33,7 @@ export function ComponentLoader({ url, onLoad, onError }: Props) {
 		document.head.appendChild(script);
 
 		script.onload = () => {
+			log("component loaded", url)
 			onLoad && onLoad();
 		};
 
@@ -40,6 +43,7 @@ export function ComponentLoader({ url, onLoad, onError }: Props) {
 		};
 
 		return () => {
+			log("component unloaded", url)
 			document.head.removeChild(script);
 		};
 	}, [url]);

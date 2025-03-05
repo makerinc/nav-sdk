@@ -9,7 +9,6 @@ const renderImage = (props) => {
 		src={props.src}
 		alt={props.alt}
 		loading={props.priority == 0 ? 'eager' : 'lazy'}
-		fetchpriority={props.priority == 0 ? 'high' : 'low'}
 		style={{
 			objectFit: props.fit,
 			objectPosition: 'center',

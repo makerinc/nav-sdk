@@ -1,11 +1,12 @@
-import { Product } from '../../src/types'
+import { DataType } from '../../src/types'
 
-export const mockProducts: Product[] = [
+export const mockProducts: DataType.Product[] = [
 	{
 		id: "P12345",
 		title: "Premium Cotton T-Shirt",
 		link: "https://example.com/products/premium-cotton-tshirt",
 		productType: "Apparel",
+		categoryId: "",
 		variants: [
 			{
 				title: "Premium Cotton T-Shirt - Medium - Blue",
@@ -22,7 +23,7 @@ export const mockProducts: Product[] = [
 				imageSize: [500, 500],
 				additionalImageSizes: [[1000, 1000], [1500, 1500]],
 				imageLink: "https://makertestingnaman.myshopify.com/cdn/shop/files/man-adjusts-blue-tuxedo-bowtie_925x_f15f8ea8-63ca-49ef-be2b-ee444c832f44.jpg?v=1739515201",
-				moreImageLinks: "",
+				additionalImageLinks: [],
 				customLabel0: "Best Seller",
 				customLabel1: "Organic Cotton",
 				availability: "In Stock",
@@ -50,6 +51,7 @@ export const mockProducts: Product[] = [
 		title: "Premium Cotton T-Shirt",
 		link: "https://example.com/products/premium-cotton-tshirt",
 		productType: "Apparel",
+		categoryId: "",
 		variants: [
 			{
 				title: "Premium Cotton T-Shirt - Medium - Blue",
@@ -66,7 +68,7 @@ export const mockProducts: Product[] = [
 				imageSize: [500, 500],
 				additionalImageSizes: [[1000, 1000], [1500, 1500]],
 				imageLink: "https://makertestingnaman.myshopify.com/cdn/shop/files/red-plaid-shirt_925x_2b126cd2-f8b2-47c1-ac58-0da32ee96437.jpg?v=1739515194",
-				moreImageLinks: "",
+				additionalImageLinks: [],
 				customLabel0: "Best Seller",
 				customLabel1: "Organic Cotton",
 				availability: "In Stock",
