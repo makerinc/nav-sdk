@@ -42,16 +42,10 @@ const getCallerModuleUrl = (): string | undefined => {
 	const err = new Error();
 	const stackLines = err.stack?.split("\n") || [];
 
-	log("getCallerModuleUrl stack lines", stackLines);
-
 	const lastStackLine = stackLines[stackLines.length - 1];
 	if (!lastStackLine) return;
 
-	log("getCallerModuleUrl last stack line", lastStackLine);
-
 	const match = lastStackLine.match(/.*at\s+(https?:\/\/.*?(\.js|\.tsx|\.ts))(?::\d+:\d+)?.*/);
-
-	log("getCallerModuleUrl match", match);
 
 	if (match) return match[1];
 }
@@ -75,6 +69,7 @@ export class ComponentRegistry {
 				componentId: string,
 				render: CustomComponent<T>
 			) => {
+				log("registering", componentId)
 				let componentUrl = getCallerModuleUrl() || import.meta.url;
 				let defaultProps = render.defaultProps;
 
@@ -92,6 +87,7 @@ export class ComponentRegistry {
 				);
 			},
 			unregister: (componentId: string) => {
+				log("unregistering", componentId)
 				const component = this.components.get(componentId);
 				if (component) {
 					this.components.delete(componentId);
