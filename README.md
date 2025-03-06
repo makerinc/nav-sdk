@@ -2,6 +2,8 @@
 
 A React toolkit to help you build custom components for [Maker Nav](https://maker.co/nav) with Typescript declarations.
 
+<img width="1575" alt="Screenshot 2025-03-06 at 6 38 44 PM" src="https://github.com/user-attachments/assets/37af531c-0dfb-4f73-8f6d-42deef6d38ab" />
+
 ## Contents
 - [Installation](#installation)
 - [Prerequisites](#prerequisites)
