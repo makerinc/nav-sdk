@@ -64,6 +64,7 @@ type DataTypeProductVariant = {
 	tags?: string[];
 	metadata?: DataTypeProductMetadata;
 	currency?: string;
+	reviewSummary?: DataTypeReviewSummary;
 };
 
 type DataTypeProductMetadata = {
@@ -72,6 +73,11 @@ type DataTypeProductMetadata = {
 
 type DataTypeProductMetadataValue = {
 	_0: string | number | undefined;
+}
+
+type DataTypeReviewSummary = {
+	count: number;
+	average: number;
 }
 
 export namespace DataType {
