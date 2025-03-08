@@ -1,5 +1,5 @@
 import React from 'react'
-import { Renderer, ComponentLoader, SharedComponentsProvider } from '../../index'
+import { Renderer, ComponentLoader, SharedComponentsProvider } from '../../src/index'
 import { mockProducts } from './mock'
 
 const renderImage = (props) => {
@@ -57,9 +57,9 @@ export default function App() {
 			<label htmlFor='mount-loader'><input name="mount-loader" type="checkbox" checked={mountLoader} onChange={(e) => setMountLoader(e.target.checked)} />Mount Loader</label> <br />
 			<label htmlFor='mount-renderer'><input name="mount-renderer" type="checkbox" checked={mountRenderer} onChange={(e) => setMountRenderer(e.target.checked)} />Mount Renderer</label>
 			{mountRenderer ? mockProducts.map((product) =>
-				<Renderer key={product.id} componentId={"my-custom-product-card"} data={product} renderFallback={() => <div>No component found for componentId: my-custom-product-card</div>} />
+				<Renderer key={product.id} componentId={"my-custom-product-card"} data={product} renderFallback={() => <div>No component found for componentId: my-custom-product-card</div>} additionalProps={{ test: "example prop value" }} />
 			) : null}
 			{mountLoader ?
-				<ComponentLoader url="http://localhost:5173/examples/builder/CustomProductCard.js" /> : null}
+				<ComponentLoader url="http://localhost:5173/builder/CustomProductCard.js" /> : null}
 		</SharedComponentsProvider>)
 }

@@ -1,4 +1,4 @@
-import React from "../../react";
+import React from "../react";
 import { registry, useRegisteredComponentByUrl } from "../utils/registry";
 import { log } from '../utils/logging'
 

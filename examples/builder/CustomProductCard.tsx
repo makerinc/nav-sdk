@@ -1,12 +1,12 @@
-import { DataType, registry, NavImage, NavLink } from '../../index';
-import React from '../../react';
+import { DataType, registry, NavImage, NavLink } from '../../src/index';
+import React from '../../src/react';
 
 type Props = {
 	data: DataType.Product;
 	test?: string
 }
 
-export const Component = (props: Props) => {
+const Component = (props: Props) => {
 	let [count, setCount] = React.useState(0);
 
 	const handleClick = () => {
@@ -40,3 +40,5 @@ Component.defaultProps = {
 }
 
 registry.register('product-card', "my-custom-product-card", Component);
+
+export default Component;

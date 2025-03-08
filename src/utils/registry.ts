@@ -1,4 +1,4 @@
-import React from "../../react";
+import React from "../react";
 import { ComponentTypeMapping } from "../types";
 import { injectImportMap } from './importmap';
 import { log } from './logging';
