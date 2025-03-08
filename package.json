@@ -19,7 +19,7 @@
   "dependencies": {
     "form-data": "^4.0.2",
     "global": "^4.4.0",
-    "globby": "^14.1.0",
+    "fast-glob": "^3.3.3",
     "keytar": "^7.9.0",
     "react": "^16.14.0",
     "react-docgen": "^7.1.1",

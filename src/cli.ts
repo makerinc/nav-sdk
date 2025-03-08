@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { build } from "esbuild";
 import { parse as reactDocParse } from "react-docgen";
-import { globby } from "globby";
+import fg from "fast-glob";
 
 const NAVSDK_CONFIG_FILE_NAME = "navsdk.config.json";
 
@@ -13,11 +13,24 @@ type Config = {
 	outputDir: string;
 }
 
-async function getConfig(): Promise<Config | undefined> {
+function makeNewConfig(): Config {
+	return {
+		paths: [
+			"src/components/**/*.tsx",
+			"src/components/**/*.ts",
+			"src/components/**/*.jsx",
+			"src/components/**/*.js",
+		],
+		outputDir: "node_modules/.nav-sdk"
+	}
+}
+
+async function getConfig(): Promise<Config> {
 	const configPath = path.join(process.cwd(), NAVSDK_CONFIG_FILE_NAME);
 	if (!fs.existsSync(configPath)) {
-		console.log("⚠️ navsdk.config.json not found. Please create a config file to build your components.");
-		return;
+		let newConfig = makeNewConfig();
+		fs.writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
+		return newConfig;
 	}
 	const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 	return config;
@@ -60,17 +73,14 @@ async function buildComponent(componentPath: string, componentName: string, conf
 async function buildComponents() {
 	const config = await getConfig();
 	if (!config) {
+		console.log("⚠️ navsdk.config.json not found. Please create a config file to build your components.");
 		return;
 	}
 
-	let files: string[] = []
-
-	for (const componentPath of config.paths) {
-		files = await globby(componentPath);
-	}
+	let files: string[] = await fg(config.paths);
 
 	for (const file of files) {
-		await buildComponent(file, path.basename(file, ".tsx"), config);
+		await buildComponent(file, path.basename(file), config);
 	}
 }
 
