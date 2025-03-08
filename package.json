@@ -1,6 +1,6 @@
 {
   "name": "@makerinc/nav-sdk",
-  "version": "1.5.0",
+  "version": "1.5.2",
   "type": "module",
   "main": "dist/src/index",
   "types": "dist/src/index",
@@ -17,10 +17,7 @@
     "prepublishonly": "yarn build"
   },
   "dependencies": {
-    "form-data": "^4.0.2",
-    "global": "^4.4.0",
     "fast-glob": "^3.3.3",
-    "keytar": "^7.9.0",
     "react": "^16.14.0",
     "react-docgen": "^7.1.1",
     "react-dom": "^16.14.0",
