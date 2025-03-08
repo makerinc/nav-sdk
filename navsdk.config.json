@@ -1,5 +1,6 @@
 {
 	"paths": [
 		"examples/builder/*.tsx"
-	]
+	],
+	"outputDir": "node_modules/.nav-sdk"
 }

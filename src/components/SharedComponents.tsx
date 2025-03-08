@@ -1,4 +1,4 @@
-import React from '../../react';
+import React from '../react';
 import { Props as ImageProps } from './shared/NavImage';
 import { Props as VideoProps } from './shared/NavVideo';
 import { ProductLinkProps, CategoryLinkProps } from './shared/NavLink';
