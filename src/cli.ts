@@ -36,9 +36,10 @@ async function getConfig(): Promise<Config> {
 	return config;
 }
 
-async function buildComponent(componentPath: string, componentName: string, config: Config) {
+async function buildComponent(componentPath: string, config: Config) {
+	const componentName = path.basename(componentPath, path.extname(componentPath));
 	const componentOutFile = path.join(config.outputDir, `${componentName}.js`);
-	const reactdocOutFile = path.join(config.outputDir, `${componentName}.reactdoc.json`);
+	const reactdocOutFile = path.join(config.outputDir, `${componentName}.doc.json`);
 
 	try {
 		await build({
@@ -73,14 +74,14 @@ async function buildComponent(componentPath: string, componentName: string, conf
 async function buildComponents() {
 	const config = await getConfig();
 	if (!config) {
-		console.log("⚠️ navsdk.config.json not found. Please create a config file to build your components.");
+		console.log("\x1b[31m", "\u2717\ufe0e navsdk.config.json not found. Please create a config file to build your components.");
 		return;
 	}
 
 	let files: string[] = await fg(config.paths);
 
 	for (const file of files) {
-		await buildComponent(file, path.basename(file), config);
+		await buildComponent(file, config);
 	}
 }
 
