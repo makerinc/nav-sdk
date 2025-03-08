@@ -2,20 +2,19 @@
   "name": "@makerinc/nav-sdk",
   "version": "1.4.8",
   "type": "module",
-  "main": "dist/index",
-  "types": "dist/index",
+  "main": "dist/src/index",
+  "types": "dist/src/index",
   "license": "MIT",
   "bin": {
-    "nav-sdk": "./dist/cli.js"
+    "nav-sdk": "./dist/src/cli.js"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite examples",
     "build": "tsc -b --force",
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "yarn build",
-    "prepublishonly": "yarn build",
-    "build-examples": "yarn esbuild examples/builder/CustomProductCard.tsx --bundle --minify --outfile=examples/builder/CustomProductCard.js --jsx=automatic --format=esm --platform=browser --external:react --external:react-dom"
+    "prepublishonly": "yarn build"
   },
   "dependencies": {
     "form-data": "^4.0.2",
