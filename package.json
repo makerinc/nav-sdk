@@ -6,7 +6,7 @@
   "types": "dist/src/index",
   "license": "MIT",
   "bin": {
-    "nav-sdk": "./dist/src/cli.js"
+    "nav-sdk": "./dist/src/cli/index.js"
   },
   "scripts": {
     "dev": "vite examples",
