@@ -23,12 +23,21 @@ function makeNewConfig(): Config {
 	}
 }
 
-export async function getConfig(): Promise<Config> {
+export async function makeConfig(): Promise<Config> {
+	const configPath = path.join(process.cwd(), NAVSDK_CONFIG_FILE_NAME);
+	let config = makeNewConfig();
+	writeFileSync(configPath, JSON.stringify(config, null, 2));
+	return config;
+}
+
+export async function getConfig(makeIfNotExists: boolean = true): Promise<Config | undefined> {
 	const configPath = path.join(process.cwd(), NAVSDK_CONFIG_FILE_NAME);
 	if (!existsSync(configPath)) {
-		let newConfig = makeNewConfig();
-		writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
-		return newConfig;
+		if (makeIfNotExists) {
+			makeConfig();
+		} else {
+			return;
+		}
 	}
 	const config = JSON.parse(readFileSync(configPath, "utf-8"));
 	return config;
