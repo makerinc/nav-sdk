@@ -2,19 +2,27 @@
 
 A React toolkit to help you build custom components for [Maker Nav](https://maker.co/nav) with Typescript declarations.
 
-<img width="1575" alt="Screenshot 2025-03-06 at 6 38 44 PM" src="https://github.com/user-attachments/assets/37af531c-0dfb-4f73-8f6d-42deef6d38ab" />
+<img width="1575" alt="Nav SDK overview" src="https://github.com/user-attachments/assets/37af531c-0dfb-4f73-8f6d-42deef6d38ab" />
 
 ## Contents
-- [Installation](#installation)
-- [Prerequisites](#prerequisites)
+- [Get Started](#get-started)
 - [Usage](#usage)
+- [CLI](#cli)
+  - [CLI Configuration](#cli-configuration)
 - [API](#api)
   - [`registry.register(type, id, component)`](#registryregistertype-id-component)
+- [Components](#components)  
   - [`<NavImage />`](#navimage-)
   - [`<NavVideo />`](#navvideo-)
   - [`<NavLink />`](#navlink-)
 
-## Installation
+## Get Started
+
+### Prerequisites
+- React 16.14 or higher (features of React 18 or higher are not yet supported.)
+- Typescript
+
+### Installation
 
 #### NPM:
 ```bash
@@ -26,10 +34,9 @@ npm install @makerinc/nav-sdk
 yarn add @makerinc/nav-sdk
 ```
 
-## Prerequisites
-
-- React 16.14 or higher (features of React 18 or higher are not yet supported.)
-- Typescript
+### Starter Project
+If you'd like to self-host your Nav components, you can clone our starter project:
+[makerinc/nav-sdk-starter-project](https://github.com/makerinc/nav-sdk-starter-project?tab=readme-ov-file#getting-started)
 
 ## Usage
 Register your custom components using the provided `registry.register()` function inside your main React app. Data fetching and syncing will be handled by Nav and the registry will pass the data down to your custom component as props.
@@ -68,6 +75,48 @@ export default MyCustomProductCard;
 > // ...others
 > ```
 
+## CLI
+With Nav SDK command line interface, you can build your custom components and publish them to Nav editor without having to leave your IDE.
+
+First you'll need to ensure that SDK is installed globally on your system:
+
+```bash
+npm install -g @makerinc/nav-sdk
+```
+
+You can now run `nav-sdk hi` to make sure the CLI has been installed correctly and to verify that you are on the latest version.
+
+Once done, you are now ready to:
+- Run `nav-sdk login` to authenticate with your Nav account.
+- Run `nav-sdk build` to make build output for all your components and prepare them for publishing. By default, this will build all components in the `src/components` directory and output them to the `node_modules/.nav-sdk` directory but you can configure this in your `navsdk.config.json` file on the root of your project. [Learn more about configuring the build](#cli-configuration).
+- Run `nav-sdk publish` to publish your built components to Nav editor. This will automatically detect the components that have been built and prompt you to select which ones you want to publish with an option to bump the version of the component.
+
+
+### CLI Configuration
+
+Nav SDK can be configured using a `navsdk.config.json` file in the root of your project. This file allows you to configure the paths to your components and the output directory for the built components used by the CLI.
+
+Default configuration looks as follows:
+```json
+{
+  "paths": [
+    "src/components/**/*.tsx",
+    "src/components/**/*.ts",
+    "src/components/**/*.jsx",
+    "src/components/**/*.js"
+  ],
+  "outputDir": "node_modules/.nav-sdk"
+}
+```
+
+#### Paths
+
+The `paths` property is an array of glob patterns that specify the paths to your components. This allows you to include or exclude specific files from the build process.
+
+#### Output Directory
+
+The `outputDir` property is the directory where the built components will be output. This directory will be created if it doesn't exist.
+
 ## API
 ### `registry.register(type, id, component)`
 
@@ -81,7 +130,7 @@ This is the main entrypoint for your custom components to be registered with Nav
 | id | `string` | The id of the component, this will be used to tell Nav which component to render in a specific node or section. <br><i>It must be unique for each custom component.</i> |
 | component | `({ data }) => JSX.Element` | React component to be rendered by Nav. <br>The `data` prop will be of type [`DataType.Product`](https://github.com/makerinc/nav-sdk/blob/main/src/types/index.ts), [`DataType.Category`](https://github.com/makerinc/nav-sdk/blob/main/src/types/index.ts) or [`DataType.Banner`](https://github.com/makerinc/nav-sdk/blob/main/src/types/index.ts) depending on the `type` parameter.
 
----
+## Components
 
 ### `<NavImage />`
 
