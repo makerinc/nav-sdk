@@ -62,22 +62,28 @@ const commands: Command[] = [
 (async () => {
 	helloWorld();
 	if (command == "help") {
+		// Help for all commands
 		console.log(chalk.bold("Available commands:"));
 		commands.forEach(command => {
 			console.log(`  ${chalk.yellow(command.usage)} - ${command.help}`);
 		});
 		return;
-	} else if (command == "") {
+	} else if (command == "hi" || command == "hello" || command == "") {
+		// Just version check
 		return;
 	} else {
+		// Find the command
 		const commandObj: Command | undefined = commands.find(cmd => cmd.cmd == command);
 		if (!commandObj) {
+			// Unknown command, show help
 			console.log(chalk.red(`Unknown command "${commandObj}". Supported commands are ${commands.map(cmd => cmd.cmd).join(", ")}. Run ${chalk.yellow("nav-sdk help")} for more information.`));
 			return;
 		} else if (help) {
+			// Show help for the command
 			console.log(commandObj.help + "\n\nUsage: " + chalk.yellow(commandObj.usage));
 			return;
 		} else {
+			// Run the command
 			await commandObj.run(args);
 		}
 	}
