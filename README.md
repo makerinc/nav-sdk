@@ -7,14 +7,14 @@ A React toolkit to help you build custom components for [Maker Nav](https://make
 ## Contents
 - [Get Started](#get-started)
 - [Usage](#usage)
-- [CLI](#cli)
-  - [CLI Configuration](#cli-configuration)
 - [API](#api)
   - [`registry.register(type, id, component)`](#registryregistertype-id-component)
 - [Components](#components)  
   - [`<NavImage />`](#navimage-)
   - [`<NavVideo />`](#navvideo-)
   - [`<NavLink />`](#navlink-)
+- [CLI](#cli)
+  - [CLI Configuration](#cli-configuration)
 
 ## Get Started
 
@@ -74,48 +74,6 @@ export default MyCustomProductCard;
 > const useMemo = React.useMemo;
 > // ...others
 > ```
-
-## CLI
-With Nav SDK command line interface, you can build your custom components and publish them to Nav editor without having to leave your IDE.
-
-First you'll need to ensure that SDK is installed globally on your system:
-
-```bash
-npm install -g @makerinc/nav-sdk
-```
-
-You can now run `nav-sdk hi` to make sure the CLI has been installed correctly and to verify that you are on the latest version.
-
-Once done, you are now ready to:
-- Run `nav-sdk login` to authenticate with your Nav account.
-- Run `nav-sdk build` to make build output for all your components and prepare them for publishing. By default, this will build all components in the `src/components` directory and output them to the `node_modules/.nav-sdk` directory but you can configure this in your `navsdk.config.json` file on the root of your project. [Learn more about configuring the build](#cli-configuration).
-- Run `nav-sdk publish` to publish your built components to Nav editor. This will automatically detect the components that have been built and prompt you to select which ones you want to publish with an option to bump the version of the component.
-
-
-### CLI Configuration
-
-Nav SDK can be configured using a `navsdk.config.json` file in the root of your project. This file allows you to configure the paths to your components and the output directory for the built components used by the CLI.
-
-Default configuration looks as follows:
-```json
-{
-  "paths": [
-    "src/components/**/*.tsx",
-    "src/components/**/*.ts",
-    "src/components/**/*.jsx",
-    "src/components/**/*.js"
-  ],
-  "outputDir": "node_modules/.nav-sdk"
-}
-```
-
-#### Paths
-
-The `paths` property is an array of glob patterns that specify the paths to your components. This allows you to include or exclude specific files from the build process.
-
-#### Output Directory
-
-The `outputDir` property is the directory where the built components will be output. This directory will be created if it doesn't exist.
 
 ## API
 ### `registry.register(type, id, component)`
@@ -179,3 +137,45 @@ Allows internal navigation to listing page or opening external link with built-i
 | categoryId | `string` | The id of the category to link to. Required only when target is set to `category` or `product` |
 | href | `string` | The URL to link to. |
 | children | `React.ReactNode` | The children of the link. |
+
+## CLI
+With Nav SDK command line interface, you can build your custom components and publish them to Nav editor without having to leave your IDE.
+
+First you'll need to ensure that SDK is installed globally on your system:
+
+```bash
+npm install -g @makerinc/nav-sdk
+```
+
+You can now run `nav-sdk hi` to make sure the CLI has been installed correctly and to verify that you are on the latest version.
+
+Once done, you are now ready to:
+- Run `nav-sdk login` to authenticate with your Nav account.
+- Run `nav-sdk build` to make build output for all your components and prepare them for publishing. By default, this will build all components in the `src/components` directory and output them to the `node_modules/.nav-sdk` directory but you can configure this in your `navsdk.config.json` file on the root of your project. [Learn more about configuring the build](#cli-configuration).
+- Run `nav-sdk publish` to publish your built components to Nav editor. This will automatically detect the components that have been built and prompt you to select which ones you want to publish with an option to bump the version of the component.
+
+
+### CLI Configuration
+
+Nav SDK can be configured using a `navsdk.config.json` file in the root of your project. This file allows you to configure the paths to your components and the output directory for the built components used by the CLI.
+
+Default configuration looks as follows:
+```json
+{
+  "paths": [
+    "src/components/**/*.tsx",
+    "src/components/**/*.ts",
+    "src/components/**/*.jsx",
+    "src/components/**/*.js"
+  ],
+  "outputDir": "node_modules/.nav-sdk"
+}
+```
+
+#### Paths
+
+The `paths` property is an array of glob patterns that specify the paths to your components. This allows you to include or exclude specific files from the build process.
+
+#### Output Directory
+
+The `outputDir` property is the directory where the built components will be output. This directory will be created if it doesn't exist.
