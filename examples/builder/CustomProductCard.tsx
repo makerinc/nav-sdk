@@ -1,4 +1,4 @@
-import { DataType, registry, NavImage, NavLink } from '../../src/index';
+import { DataType, registry, NavImage, NavLink, NavCTAButton } from '../../src/index';
 import React from '../../src/react';
 
 type Props = {
@@ -7,11 +7,7 @@ type Props = {
 }
 
 const Component = (props: Props) => {
-	let [count, setCount] = React.useState(0);
-
-	const handleClick = () => {
-		setCount(count + 1);
-	};
+	let selectedVariant = props.data.variants[0];
 
 	return (
 		<NavLink target="product" productId={props.data.id} categoryId={props.data.categoryId} href={props.data.link}>
@@ -29,7 +25,7 @@ const Component = (props: Props) => {
 				<NavLink href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
 					Open Product
 				</NavLink>
-				<button onClick={handleClick}>Clicked {count} times</button>
+				<NavCTAButton action='add-to-cart' product={props.data} variant={selectedVariant} onClick={_ => alert("Add to cart clicked!")}>Add to Cart</NavCTAButton>
 			</div>
 		</NavLink>
 	)
