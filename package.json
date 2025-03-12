@@ -1,6 +1,6 @@
 {
   "name": "@makerinc/nav-sdk",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "type": "module",
   "main": "dist/src/index",
   "types": "dist/src/index",
@@ -21,6 +21,7 @@
     "react": "^16.14.0",
     "react-docgen": "^7.1.1",
     "react-dom": "^16.14.0",
+    "react-shadow": "^20.6.0",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

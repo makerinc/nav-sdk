@@ -1,4 +1,5 @@
 import React from 'react';
+import ShadowDOM from 'react-shadow';
 import { DataType } from '../types';
 import { registry, useRegistrationListener } from '../utils/registry';
 import ErrorBoundary from './ErrorBoundary';
@@ -11,11 +12,13 @@ type RendererProps = {
 };
 
 export function Renderer({ componentId, data, additionalProps, renderFallback }: RendererProps) {
-	const [_, setForceRender] = React.useState<number>(() => 0);
+	const [, setForceRender] = React.useState<number>(() => 0);
 
 	useRegistrationListener((data) => {
-		data.componentId == componentId && setForceRender(previous => previous + 1);
-	})
+		if (data.componentId === componentId) {
+			setForceRender(previous => previous + 1);
+		}
+	});
 
 	const RenderComponent = registry.getById(componentId)?.render;
 
@@ -25,7 +28,9 @@ export function Renderer({ componentId, data, additionalProps, renderFallback }:
 
 	return (
 		<ErrorBoundary renderFallback={renderFallback}>
-			{React.createElement(RenderComponent, { data, ...additionalProps })}
+			<ShadowDOM.div>
+				<RenderComponent data={data} {...additionalProps} />
+			</ShadowDOM.div>
 		</ErrorBoundary>
 	);
 }
