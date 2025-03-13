@@ -4,6 +4,7 @@ import chalk from "chalk";
 import { login, logout } from "./auth.js";
 import { build } from "./build.js";
 import { getVersion } from "./config.js";
+import { publish } from "./publish.js";
 
 type Command = {
 	cmd: string;
@@ -14,18 +15,6 @@ type Command = {
 
 function helloWorld() {
 	console.log(chalk.bold(chalk.cyan("Nav SDK")), chalk.cyan(getVersion()));
-}
-
-const sleep = (delay: number) => {
-	return new Promise(resolve => setTimeout(resolve, delay));
-}
-
-async function publish(args: string[]) {
-	await login(args);
-	await build(args);
-	console.log("Publishing...");
-	await sleep(1000);
-	console.log(chalk.green("Publish successful."));
 }
 
 const args = process.argv.slice(2);
