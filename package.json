@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "yarn build",
-    "prepublishonly": "yarn build"
+    "prepublishonly": "yarn build",
+    "cli": "node ./dist/src/cli/index.js"
   },
   "dependencies": {
     "chalk": "^5.4.1",
