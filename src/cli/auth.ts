@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import os from "os";
 import chalk from "chalk";
 import jsonwebtoken from "jsonwebtoken";
+import getPort from "get-port";
 
 const AUTH_TOKEN_ENV_VAR = "AUTH_TOKEN";
 const ENV_FILE_PATH = path.join(os.homedir(), ".nav-sdk.env");
@@ -15,6 +16,7 @@ const ENV_FILE_PATH = path.join(os.homedir(), ".nav-sdk.env");
 // const NAV_EDITOR_URL = "https://editor.maker.co";
 const NAV_EDITOR_URL = "http://localhost:3000";
 const API_URL = "https://api-git-master-makerco.vercel.app";
+
 
 /**
  * Loads environment variables from the .nav-sdk.env file
@@ -118,7 +120,7 @@ export async function login(_: string[]): Promise<void> {
 
 	// Create a local server to listen for the callback
 	const server = http.createServer();
-	const port = 3333; // Choose an available port
+	const port = await getPort({ port: 3000 });
 
 	// Promise to handle server response
 	const authPromise = new Promise<string>((resolve, reject) => {
@@ -139,14 +141,14 @@ export async function login(_: string[]): Promise<void> {
 			// Send response to the browser
 			res.writeHead(200, { "Content-Type": "text/html" });
 			res.end(`
-        <html>
-          <body>
-            <h1>Authentication Successful</h1>
-            <p>You can now close this window and return to the CLI.</p>
-            <script>window.close();</script>
-          </body>
-        </html>
-      `);
+				<html>
+				<body>
+					<h1>Authentication Successful</h1>
+					<p>You can now close this window and return to the CLI.</p>
+					<script>window.close();</script>
+				</body>
+				</html>
+			`);
 
 			// Clear timeout and close server
 			clearTimeout(timeout);
@@ -186,6 +188,9 @@ export async function login(_: string[]): Promise<void> {
 		saveToken(token);
 
 		console.log(chalk.green("Login successful."));
+
+		// Exit the process
+		process.exit(0);
 	} catch (error) {
 		console.error("Login error:", error);
 		console.log(chalk.red(`Login failed: ${error}`));
