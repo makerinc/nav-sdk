@@ -1,5 +1,5 @@
 // auth.ts
-import { existsSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync, unlinkSync } from "fs";
 import path from "path";
 import open from "open";
 import http from "http";
@@ -7,13 +7,14 @@ import { URL } from "url";
 import dotenv from "dotenv";
 import os from "os";
 import chalk from "chalk";
+import jsonwebtoken from "jsonwebtoken";
 
-const sleep = (delay: number) => {
-	return new Promise(resolve => setTimeout(resolve, delay));
-}
-
-const AUTH_TOKEN_ENV_VAR = "NAV_SDK_LOGIN_AUTH_TOKEN";
+const AUTH_TOKEN_ENV_VAR = "AUTH_TOKEN";
 const ENV_FILE_PATH = path.join(os.homedir(), ".nav-sdk.env");
+
+// const NAV_EDITOR_URL = "https://editor.maker.co";
+const NAV_EDITOR_URL = "http://localhost:3000";
+const API_URL = "https://api-git-master-makerco.vercel.app";
 
 /**
  * Loads environment variables from the .nav-sdk.env file
@@ -38,21 +39,53 @@ function saveToken(token: string): void {
 }
 
 /**
+ * Delete the authentication token from the .nav-sdk.env file
+ */
+function deleteToken(): void {
+	const existingToken = process.env[AUTH_TOKEN_ENV_VAR];
+	if (existingToken) {
+		delete process.env[AUTH_TOKEN_ENV_VAR];
+	}
+	if (existsSync(ENV_FILE_PATH)) {
+		unlinkSync(ENV_FILE_PATH);
+	}
+}
+
+/**
  * Validates the authentication token against the API
  * @param token - The token to validate
  * @returns A promise that resolves to true if the token is valid
  */
-async function validateToken(token: string): Promise<boolean> {
+async function validateToken(token: string, verbose: boolean = false): Promise<boolean> {
 	try {
-		// Here you would make an API call to validate the token
-		// For example:
-		// const response = await fetch('https://nav.maker.co/api/validate-token', {
-		//   headers: { Authorization: `Bearer ${token}` }
-		// });
-		// return response.status === 200;
-
-		// Placeholder implementation
-		return token.length > 0;
+		let decoded = jsonwebtoken.decode(token);
+		if (!decoded) {
+			verbose && console.error("Failed to decode token");
+			return false;
+		}
+		let expireAt = (decoded as jsonwebtoken.JwtPayload).exp;
+		if (!expireAt) {
+			verbose && console.error("Token does not contain expiration date");
+			return false;
+		}
+		expireAt = expireAt * 1000;
+		if (expireAt && expireAt < Date.now()) {
+			verbose && console.error("Token is likely expired");
+			return false;
+		}
+		let accountId = (decoded as jsonwebtoken.JwtPayload).accountId;
+		if (!accountId) {
+			verbose && console.error("Token does not contain accountId");
+			return false;
+		}
+		const response = await fetch(`${API_URL}/api/get_account?account_id=${accountId}`, {
+			headers: { Authorization: `Bearer ${token}` }
+		});
+		if (!response.ok) {
+			verbose && console.error("Failed to validate token");
+			return false;
+		}
+		return true;
 	} catch (error) {
 		console.error("Token validation error:", error);
 		return false;
@@ -139,7 +172,7 @@ export async function login(_: string[]): Promise<void> {
 	});
 
 	// Construct the login URL with the port for callback
-	const loginUrl = `https://nav.maker.co/editor/sign-in?redirect_url=cli-login-success?port=${port}`;
+	const loginUrl = `${NAV_EDITOR_URL}/editor/sign-in?redirect_url=/connect_cli_done%3Fport=${port}`;
 
 	try {
 		// Open the browser
@@ -160,7 +193,7 @@ export async function login(_: string[]): Promise<void> {
 }
 
 export async function logout(_: string[]) {
-	console.log("Logging out...")
-	await sleep(1000)
+	console.log("Logging out...");
+	deleteToken();
 	console.log(chalk.green("Logout successful."));
 }
