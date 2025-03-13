@@ -3,11 +3,7 @@ import chalk from "chalk";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { execSync } from "child_process";
 import path from "path";
-
-export type Config = {
-	paths: string[];
-	outputDir: string;
-}
+import { Config } from "../types/cli";
 
 const NAVSDK_CONFIG_FILE_NAME = "navsdk.config.json";
 
