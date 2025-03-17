@@ -48,12 +48,16 @@ let renderProductLink = (props) => {
 	return (<a href={props.href}>{props.children}</a>)
 }
 
+let renderAddToCartButton = (props) => {
+	return (<button onClick={() => console.log("add to cart clicked!", props)}>{props.children}</button>)
+}
+
 export default function App() {
 	const [mountLoader, setMountLoader] = React.useState(false)
 	const [mountRenderer, setMountRenderer] = React.useState(false)
 
 	return (
-		<SharedComponentsProvider renderImage={renderImage} renderVideo={renderVideo} renderCategoryLink={renderCategoryLink} renderProductLink={renderProductLink}>
+		<SharedComponentsProvider renderImage={renderImage} renderVideo={renderVideo} renderCategoryLink={renderCategoryLink} renderProductLink={renderProductLink} renderAddToCartButton={renderAddToCartButton}>
 			<label htmlFor='mount-loader'><input name="mount-loader" type="checkbox" checked={mountLoader} onChange={(e) => setMountLoader(e.target.checked)} />Mount Loader</label> <br />
 			<label htmlFor='mount-renderer'><input name="mount-renderer" type="checkbox" checked={mountRenderer} onChange={(e) => setMountRenderer(e.target.checked)} />Mount Renderer</label>
 			{mountRenderer ? mockProducts.map((product) =>

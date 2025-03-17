@@ -25,7 +25,7 @@ const Component = (props: Props) => {
 				<NavLink href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
 					Open Product
 				</NavLink>
-				<NavCTAButton action='add-to-cart' product={props.data} variant={selectedVariant} onClick={_ => alert("Add to cart clicked!")}>Add to Cart</NavCTAButton>
+				<NavCTAButton action='add-to-cart' product={props.data} variant={selectedVariant}>Add to Cart</NavCTAButton>
 			</div>
 		</NavLink>
 	)
