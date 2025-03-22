@@ -6,7 +6,7 @@
   "types": "dist/src/index",
   "license": "MIT",
   "bin": {
-    "nav-sdk": "./dist/src/cli.js"
+    "nav-sdk": "./dist/src/cli/index.js"
   },
   "scripts": {
     "dev": "vite examples",
@@ -14,18 +14,23 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "yarn build",
-    "prepublishonly": "yarn build"
+    "prepublishonly": "yarn build",
+    "cli": "node ./dist/src/cli/index.js"
   },
   "dependencies": {
+    "chalk": "^5.4.1",
     "fast-glob": "^3.3.3",
+    "jsonwebtoken": "^8.5.1",
     "react": "^16.14.0",
     "react-docgen": "^7.1.1",
     "react-dom": "^16.14.0",
     "react-shadow": "^20.6.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "get-port": "^7.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/react": "^16.9.14",
     "@types/react-dom": "^16.9.14",
     "@vitejs/plugin-react": "^4.3.4",
