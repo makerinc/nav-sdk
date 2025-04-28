@@ -12,10 +12,10 @@ import getPort from "get-port";
 const AUTH_TOKEN_ENV_VAR = "AUTH_TOKEN";
 const ENV_FILE_PATH = path.join(os.homedir(), ".nav-sdk.env");
 
-// const NAV_EDITOR_URL = "https://editor.maker.co";
-const NAV_EDITOR_URL = "http://localhost:3000";
-const API_URL = "https://api-git-master-makerco.vercel.app";
-
+const NAV_EDITOR_URL_PROD = "https://editor.maker.co";
+const NAV_EDITOR_URL_DEV = "http://localhost:3000";
+const API_URL_DEV = "https://api-git-master-makerco.vercel.app";
+const API_URL_PROD = "https://api.maker.co";
 
 function loadEnvVars(): void {
 	if (existsSync(ENV_FILE_PATH)) {
@@ -54,7 +54,7 @@ function deleteToken(): void {
  * @param token - The token to validate
  * @returns A promise that resolves to true if the token is valid
  */
-async function validateToken(token: string, verbose: boolean = false): Promise<boolean> {
+async function validateToken(token: string, verbose: boolean = false, isDev: boolean = false): Promise<boolean> {
 	try {
 		let decoded = jsonwebtoken.decode(token);
 		if (!decoded) {
@@ -76,7 +76,7 @@ async function validateToken(token: string, verbose: boolean = false): Promise<b
 			verbose && console.error("Token does not contain accountId");
 			return false;
 		}
-		const response = await fetch(`${API_URL}/api/get_account?account_id=${accountId}`, {
+		const response = await fetch(`${isDev ? API_URL_DEV : API_URL_PROD}/api/get_account?account_id=${accountId}`, {
 			headers: { Authorization: `Bearer ${token}` }
 		});
 		if (!response.ok) {
@@ -91,29 +91,29 @@ async function validateToken(token: string, verbose: boolean = false): Promise<b
 }
 
 /**
+ * Checks if the user is already logged in
+ * @returns A promise that resolves to true if the user is logged in
+ */
+export async function isLoggedIn(): Promise<boolean> {
+	const existingToken = process.env[AUTH_TOKEN_ENV_VAR];
+
+	if (existingToken) {
+		const isValid = await validateToken(existingToken);
+		if (isValid) {
+			console.log(chalk.green("You are already logged in."));
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
  * Handles the login process for Nav SDK
  * Opens a browser for authentication and captures the token
  * @param args - Command line arguments (not used)
  */
-export async function login(_: string[]): Promise<void> {
-	// Load existing environment variables
-	loadEnvVars();
-
-	// Check if we have an existing token
-	const existingToken = process.env[AUTH_TOKEN_ENV_VAR];
-
-	if (existingToken) {
-		console.log("Checking existing login...");
-		const isValid = await validateToken(existingToken);
-		if (isValid) {
-			console.log(chalk.green("You are already logged in."));
-			return;
-		}
-		console.log("Previous session expired. Logging in again...");
-	}
-
-	console.log("Logging in...");
-
+export async function startLoginServer(isDev: boolean = false): Promise<void> {
 	const server = http.createServer();
 	const port = await getPort({ port: 3000 });
 
@@ -163,7 +163,7 @@ export async function login(_: string[]): Promise<void> {
 		console.log(`Listening for authentication callback on port ${port}`);
 	});
 
-	const loginUrl = `${NAV_EDITOR_URL}/editor/sign-in?redirect_url=/connect_cli_done%3Fport=${port}`;
+	const loginUrl = `${isDev ? NAV_EDITOR_URL_DEV : NAV_EDITOR_URL_PROD}/editor/sign-in?redirect_url=/connect_cli_done%3Fport=${port}`;
 
 	try {
 		await open(loginUrl);
@@ -182,6 +182,29 @@ export async function login(_: string[]): Promise<void> {
 	}
 }
 
+/**
+ * Checks if the user is already logged in and opens a browser for authentication
+ * @param args - Command line arguments
+ * @returns A promise that resolves when successfully logged in
+ */
+export async function login(args: string[]): Promise<void> {
+	loadEnvVars();
+
+	let isDev = args.includes("--dev");
+
+	console.log("Checking existing login...");
+	if (await isLoggedIn()) {
+		console.log(chalk.green("You are already logged in."));
+		return;
+	}
+
+	console.log("Logging in...");
+	await startLoginServer(isDev);
+}
+
+/**
+ * Logs out the user by deleting the authentication token
+ */
 export async function logout(_: string[]) {
 	console.log("Logging out...");
 	deleteToken();
