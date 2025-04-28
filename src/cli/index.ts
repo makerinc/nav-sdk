@@ -3,7 +3,7 @@
 import chalk from "chalk";
 import { login, logout } from "./auth.js";
 import { build } from "./build.js";
-import { getVersion } from "./config.js";
+import { getVersion } from "./utils.js";
 import { publish } from "./publish.js";
 
 type Command = {
