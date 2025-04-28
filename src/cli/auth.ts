@@ -12,7 +12,7 @@ import getPort from "get-port";
 const AUTH_TOKEN_ENV_VAR = "AUTH_TOKEN";
 const ENV_FILE_PATH = path.join(os.homedir(), ".nav-sdk.env");
 
-const NAV_EDITOR_URL_PROD = "https://editor.maker.co";
+const NAV_EDITOR_URL_PROD = "https://nav.maker.co";
 const NAV_EDITOR_URL_DEV = "http://localhost:3000";
 const API_URL_DEV = "https://api-git-master-makerco.vercel.app";
 const API_URL_PROD = "https://api.maker.co";
@@ -115,7 +115,7 @@ export async function isLoggedIn(): Promise<boolean> {
  */
 export async function startLoginServer(isDev: boolean = false): Promise<void> {
 	const server = http.createServer();
-	const port = await getPort({ port: 3000 });
+	const port = await getPort({ port: 3333 });
 
 	const authPromise = new Promise<string>((resolve, reject) => {
 		const timeout = setTimeout(() => {
