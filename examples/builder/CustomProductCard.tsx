@@ -1,4 +1,4 @@
-import { DataType, registry, NavImage, NavLink, NavCTAButton } from '../../src/index';
+import { DataType, registry, NavImage, NavLink, NavBuyButton } from '../../src/index';
 import React from '../../src/react';
 
 type Props = {
@@ -25,7 +25,7 @@ const Component = (props: Props) => {
 				<NavLink href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
 					Open Product
 				</NavLink>
-				<NavCTAButton action='add-to-cart' product={props.data} variant={selectedVariant}>Add to Cart</NavCTAButton>
+				<NavBuyButton action='add-to-cart' product={props.data} variant={selectedVariant}>Add to Cart</NavBuyButton>
 			</div>
 		</NavLink>
 	)

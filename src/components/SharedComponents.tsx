@@ -1,7 +1,7 @@
 import React from '../react';
 import { Props as ImageProps } from './shared/NavImage';
 import { Props as VideoProps } from './shared/NavVideo';
-import { Props as CTAButtonProps } from './shared/NavCTAButton';
+import { Props as BuyButtonProps } from './shared/NavBuyButton';
 import { ProductLinkProps, CategoryLinkProps } from './shared/NavLink';
 
 export type ContextType = {
@@ -9,7 +9,7 @@ export type ContextType = {
 	renderVideo: ((props: VideoProps) => React.JSX.Element) | undefined;
 	renderProductLink: ((props: ProductLinkProps) => React.JSX.Element) | undefined;
 	renderCategoryLink: ((props: CategoryLinkProps) => React.JSX.Element) | undefined;
-	renderAddToCartButton: ((props: CTAButtonProps) => React.JSX.Element) | undefined;
+	renderBuyButton: ((props: BuyButtonProps) => React.JSX.Element) | undefined;
 };
 
 window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__ = window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__ || React.createContext<ContextType>({
@@ -17,7 +17,7 @@ window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__ = window.__MAKER_NAV_SHARED_COMPO
 	renderVideo: undefined,
 	renderProductLink: undefined,
 	renderCategoryLink: undefined,
-	renderAddToCartButton: undefined,
+	renderBuyButton: undefined,
 });
 
 const Context = window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__;
@@ -27,14 +27,14 @@ type ProviderProps = React.PropsWithChildren<{
 	renderVideo: ((props: VideoProps) => React.JSX.Element) | undefined;
 	renderProductLink: ((props: ProductLinkProps) => React.JSX.Element) | undefined;
 	renderCategoryLink: ((props: CategoryLinkProps) => React.JSX.Element) | undefined;
-	renderAddToCartButton: ((props: CTAButtonProps) => React.JSX.Element) | undefined;
+	renderBuyButton: ((props: BuyButtonProps) => React.JSX.Element) | undefined;
 }>;
 
 export const useContext = () => React.useContext(Context);
 
-export function Provider({ renderImage, renderVideo, renderProductLink, renderCategoryLink, renderAddToCartButton, children }: ProviderProps) {
+export function Provider({ renderImage, renderVideo, renderProductLink, renderCategoryLink, renderBuyButton, children }: ProviderProps) {
 	return (
-		<Context.Provider value={{ renderImage, renderVideo, renderProductLink, renderCategoryLink, renderAddToCartButton }}>
+		<Context.Provider value={{ renderImage, renderVideo, renderProductLink, renderCategoryLink, renderBuyButton }}>
 			{children}
 		</Context.Provider>
 	);

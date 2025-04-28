@@ -1,7 +1,7 @@
 import { DataType } from "../../index"
 import SharedComponents from "../SharedComponents";
 
-type action = 'add-to-cart' | 'add-to-wishlist' | 'checkout' | 'buy-now';
+type action = 'add-to-cart' | 'buy-now';
 
 export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	action: action,
@@ -11,10 +11,10 @@ export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const CTAButton = (props: Props) => {
-	let { renderCTAButton } = SharedComponents.useContext();
+	let { renderBuyButton } = SharedComponents.useContext();
 
-	if (typeof renderCTAButton === 'function') {
-		return renderCTAButton(props);
+	if (typeof renderBuyButton === 'function') {
+		return renderBuyButton(props);
 	}
 
 	return (
