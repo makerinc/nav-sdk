@@ -100,7 +100,6 @@ export async function isLoggedIn(): Promise<boolean> {
 	if (existingToken) {
 		const isValid = await validateToken(existingToken);
 		if (isValid) {
-			console.log(chalk.green("You are already logged in."));
 			return true;
 		}
 	}
