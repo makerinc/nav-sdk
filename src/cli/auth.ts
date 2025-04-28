@@ -1,4 +1,3 @@
-// auth.ts
 import { existsSync, readFileSync, writeFileSync, unlinkSync } from "fs";
 import path from "path";
 import open from "open";
@@ -18,9 +17,6 @@ const NAV_EDITOR_URL = "http://localhost:3000";
 const API_URL = "https://api-git-master-makerco.vercel.app";
 
 
-/**
- * Loads environment variables from the .nav-sdk.env file
- */
 function loadEnvVars(): void {
 	if (existsSync(ENV_FILE_PATH)) {
 		const envConfig = dotenv.parse(readFileSync(ENV_FILE_PATH));
@@ -118,13 +114,10 @@ export async function login(_: string[]): Promise<void> {
 
 	console.log("Logging in...");
 
-	// Create a local server to listen for the callback
 	const server = http.createServer();
 	const port = await getPort({ port: 3000 });
 
-	// Promise to handle server response
 	const authPromise = new Promise<string>((resolve, reject) => {
-		// Set timeout for login process
 		const timeout = setTimeout(() => {
 			server.close();
 			reject(new Error("Login timed out after 5 minutes"));
@@ -138,7 +131,6 @@ export async function login(_: string[]): Promise<void> {
 			const url = new URL(req.url, `http://localhost:${port}`);
 			const token = url.searchParams.get("token");
 
-			// Send response to the browser
 			res.writeHead(200, { "Content-Type": "text/html" });
 			res.end(`
 				<html>
@@ -150,7 +142,6 @@ export async function login(_: string[]): Promise<void> {
 				</html>
 			`);
 
-			// Clear timeout and close server
 			clearTimeout(timeout);
 			server.close();
 
@@ -168,28 +159,22 @@ export async function login(_: string[]): Promise<void> {
 		});
 	});
 
-	// Start the server
 	server.listen(port, () => {
 		console.log(`Listening for authentication callback on port ${port}`);
 	});
 
-	// Construct the login URL with the port for callback
 	const loginUrl = `${NAV_EDITOR_URL}/editor/sign-in?redirect_url=/connect_cli_done%3Fport=${port}`;
 
 	try {
-		// Open the browser
 		await open(loginUrl);
 		console.log(chalk.cyan("Browser opened for authentication. Please log in..."));
 
-		// Wait for authentication to complete
 		const token = await authPromise;
 
-		// Save the token
 		saveToken(token);
 
 		console.log(chalk.green("Login successful."));
 
-		// Exit the process
 		process.exit(0);
 	} catch (error) {
 		console.error("Login error:", error);
