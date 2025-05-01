@@ -3,7 +3,8 @@ const MAP = {
 	imports: {
 		react: 'https://esm.sh/react@16.14.0',
 		'react-dom': 'https://esm.sh/react@16.14.0',
-		'react/jsx-runtime': 'https://esm.sh/react@16.14.0/jsx-runtime'
+		'react/jsx-runtime': 'https://esm.sh/react@16.14.0/jsx-runtime',
+		'react-dom/server': 'https://esm.sh/react-dom@16.14.0/server'
 	}
 }
 
