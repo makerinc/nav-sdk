@@ -94,5 +94,6 @@ export type ComponentTypeMapping = {
 	"categories-section": DataType.Category[];
 	"products-section": DataType.Product[];
 	"banners-section": DataType.Banner[];
+	"product-details-page": DataType.Product;
 	"custom-section": any;
 }
