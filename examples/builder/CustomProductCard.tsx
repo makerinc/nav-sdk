@@ -42,7 +42,25 @@ const Component = (props: Props) => {
 					<NavProductQuantityPicker>
 						{(current) => <input type="number" min={1} max={10} value={current.value} onChange={(e) => current.onChange(parseInt(e.target.value))} />}
 					</NavProductQuantityPicker>
-					<NavBuyButton action='add-to-cart' product={props.data} variant={selectedVariant}><button>Add to Cart</button></NavBuyButton>
+					<NavBuyButton action='add-to-cart' product={props.data} variant={selectedVariant}>
+						{({ state }) => {
+							switch (state) {
+								case 'available':
+									<button>Add to Cart</button>
+									break;
+								case 'out-of-stock':
+									<button disabled={true}>Out of Stock</button>
+									break;
+								case 'unavailable':
+									<button disabled={true}>Unavailable</button>
+									break;
+								case 'added-to-cart':
+									<button disabled={true}>Added to Cart!</button>
+									break;
+							}
+						}
+						}
+					</NavBuyButton>
 				</NavProductForm>
 			</div>
 		</NavLink>
