@@ -1,4 +1,4 @@
-import { DataType, registry, NavImage, NavLink, NavBuyButton } from '../../src/index';
+import { DataType, registry, NavImage, NavLink, NavBuyButton, NavProductForm, NavProductVariantPicker, NavProductQuantityPicker } from '../../src/index';
 import React from '../../src/react';
 
 type Props = {
@@ -25,7 +25,25 @@ const Component = (props: Props) => {
 				<NavLink href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
 					Open Product
 				</NavLink>
-				<NavBuyButton action='add-to-cart' product={props.data} variant={selectedVariant}>Add to Cart</NavBuyButton>
+				<NavProductForm product={props.data} variant={selectedVariant}>
+					<NavProductVariantPicker>
+						{(groups) => groups.map((group) => (
+							<div key={group.label}>
+								<div>{group.label}</div>
+								{group.options.map((option) => (
+									<div key={option.value}>
+										<input type="radio" name={group.label} value={option.value} checked={option.selected} onChange={() => group.onChange(option.value)} />
+										<label>{option.label}</label>
+									</div>
+								))}
+							</div>
+						))}
+					</NavProductVariantPicker>
+					<NavProductQuantityPicker>
+						{(current) => <input type="number" min={1} max={10} value={current.value} onChange={(e) => current.onChange(parseInt(e.target.value))} />}
+					</NavProductQuantityPicker>
+					<NavBuyButton action='add-to-cart' product={props.data} variant={selectedVariant}>Add to Cart</NavBuyButton>
+				</NavProductForm>
 			</div>
 		</NavLink>
 	)

@@ -1,10 +1,13 @@
 import React from "react";
 import SharedComponents from "../SharedComponents";
 
-export type Props = {
+type current = {
 	value: number;
 	onChange: (value: number) => void;
-	children: React.ReactNode;
+}
+
+export type Props = {
+	children: (current: current) => React.ReactNode;
 };
 
 const QuantityPicker = (props: Props) => {
@@ -15,7 +18,7 @@ const QuantityPicker = (props: Props) => {
 	}
 
 	return (
-		"quantity picker not implemented"
+		<div>quantity picker not implemented</div>
 	);
 };
 

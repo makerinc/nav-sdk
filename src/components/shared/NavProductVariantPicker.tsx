@@ -11,7 +11,7 @@ type optionGroup = {
 	label: string,
 	options: Array<option>
 	required?: boolean,
-	onChange?: (value: string) => void,
+	onChange: (value: string) => void,
 }
 
 export type Props = {
@@ -26,7 +26,7 @@ const VariantPicker = (props: Props) => {
 	}
 
 	return (
-		"variant picker not implemented"
+		<div>variant picker not implemented</div>
 	);
 };
 

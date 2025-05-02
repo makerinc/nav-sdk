@@ -58,12 +58,37 @@ let renderBuyButton = (props) => {
 	}
 }
 
+let renderProductForm = (props) => {
+	return (<form onSubmit={(e) => {
+		e.preventDefault()
+		console.log("form submitted!", props)
+	}}>
+		{props.children}
+	</form>)
+}
+
+let renderProductVariantPicker = (props) => {
+	return (<div>variant picker not implemented</div>)
+}
+
+let renderProductQuantityPicker = (props) => {
+	return (<div>quantity picker not implemented</div>)
+}
+
 export default function App() {
 	const [mountLoader, setMountLoader] = React.useState(false)
 	const [mountRenderer, setMountRenderer] = React.useState(false)
 
 	return (
-		<SharedComponentsProvider renderImage={renderImage} renderVideo={renderVideo} renderCategoryLink={renderCategoryLink} renderProductLink={renderProductLink} renderBuyButton={renderBuyButton}>
+		<SharedComponentsProvider
+			renderImage={renderImage}
+			renderVideo={renderVideo}
+			renderCategoryLink={renderCategoryLink}
+			renderProductLink={renderProductLink}
+			renderBuyButton={renderBuyButton}
+			renderProductForm={renderProductForm}
+			renderProductVariantPicker={renderProductVariantPicker}
+			renderProductQuantityPicker={renderProductQuantityPicker}>
 			<label htmlFor='mount-loader'><input name="mount-loader" type="checkbox" checked={mountLoader} onChange={(e) => setMountLoader(e.target.checked)} />Mount Loader</label> <br />
 			<label htmlFor='mount-renderer'><input name="mount-renderer" type="checkbox" checked={mountRenderer} onChange={(e) => setMountRenderer(e.target.checked)} />Mount Renderer</label>
 			{mountRenderer ? mockProducts.map((product) =>
