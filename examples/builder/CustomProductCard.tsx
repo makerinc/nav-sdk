@@ -1,4 +1,4 @@
-import { DataType, registry, NavImage, NavLink } from '../../src/index';
+import { DataType, registry, NavImage, NavLink, NavBuyButton, NavProductForm, NavProductVariantPicker, NavProductQuantityPicker } from '../../src/index';
 import React from '../../src/react';
 
 type Props = {
@@ -7,11 +7,7 @@ type Props = {
 }
 
 const Component = (props: Props) => {
-	let [count, setCount] = React.useState(0);
-
-	const handleClick = () => {
-		setCount(count + 1);
-	};
+	let selectedVariant = props.data.variants[0];
 
 	return (
 		<NavLink target="product" productId={props.data.id} categoryId={props.data.categoryId} href={props.data.link}>
@@ -29,7 +25,43 @@ const Component = (props: Props) => {
 				<NavLink href={props.data.link} target="_blank" onClick={e => e.stopPropagation()}>
 					Open Product
 				</NavLink>
-				<button onClick={handleClick}>Clicked {count} times</button>
+				<NavProductForm product={props.data} variant={selectedVariant}>
+					<NavProductVariantPicker>
+						{(groups, onChange) => groups.map((group) => (
+							<div key={group.label}>
+								<div>{group.label}</div>
+								{group.options.map((option) => (
+									<div key={option.value}>
+										<input type="radio" name={group.label} value={option.value} checked={group.value == option.value || group.initialValue == option.value} onChange={(e) => onChange({ ...group, value: e.target.value })} />
+										<label>{option.label}</label>
+									</div>
+								))}
+							</div>
+						))}
+					</NavProductVariantPicker>
+					<NavProductQuantityPicker>
+						{(current) => <input type="number" min={1} max={10} value={current.value} onChange={(e) => current.onChange(parseInt(e.target.value))} />}
+					</NavProductQuantityPicker>
+					<NavBuyButton action='add-to-cart' product={props.data} variant={selectedVariant}>
+						{({ state }) => {
+							switch (state) {
+								case 'available':
+									<button>Add to Cart</button>
+									break;
+								case 'out-of-stock':
+									<button disabled={true}>Out of Stock</button>
+									break;
+								case 'unavailable':
+									<button disabled={true}>Unavailable</button>
+									break;
+								case 'added-to-cart':
+									<button disabled={true}>Added to Cart!</button>
+									break;
+							}
+						}
+						}
+					</NavBuyButton>
+				</NavProductForm>
 			</div>
 		</NavLink>
 	)
