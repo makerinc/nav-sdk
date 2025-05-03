@@ -11,7 +11,6 @@ type renderProps = {
 export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	action: action,
 	product: DataType.Product,
-	variant: DataType.ProductVariant,
 	children: (renderProps: renderProps) => React.ReactNode;
 };
 
