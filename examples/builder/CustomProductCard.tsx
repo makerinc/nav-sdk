@@ -27,8 +27,8 @@ const Component = (props: Props) => {
 				</NavLink>
 				<NavProductForm product={props.data} variant={selectedVariant}>
 					<NavProductVariantPicker>
-						{(groups, onChange) => groups.map((group) => (
-							<div key={group.label}>
+						{(group, onChange) => {
+							return (<div key={group.label}>
 								<div>{group.label}</div>
 								{group.options.map((option) => (
 									<div key={option.value}>
@@ -36,8 +36,8 @@ const Component = (props: Props) => {
 										<label>{option.label}</label>
 									</div>
 								))}
-							</div>
-						))}
+							</div>)
+						}}
 					</NavProductVariantPicker>
 					<NavProductQuantityPicker>
 						{(current) => <input type="number" min={1} max={10} value={current.value} onChange={(e) => current.onChange(parseInt(e.target.value))} />}

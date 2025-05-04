@@ -22,7 +22,7 @@ type optionGroup = {
 }
 
 export type Props = {
-	children: (group: Array<optionGroup>, onChange: (optionGroup: optionGroup) => void) => Array<React.ReactNode>;
+	children: (group: optionGroup, onChange: (optionGroup: optionGroup) => void) => React.ReactNode;
 };
 
 const VariantPicker = (props: Props) => {
