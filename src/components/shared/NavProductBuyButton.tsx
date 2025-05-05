@@ -4,14 +4,10 @@ import SharedComponents from "../SharedComponents";
 type action = 'add-to-cart' | 'buy-now';
 type state = 'available' | 'added-to-cart' | 'out-of-stock' | 'unavailable';
 
-type renderProps = {
-	state: state,
-}
-
 export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	action: action,
 	product: DataType.Product,
-	children: (renderProps: renderProps) => React.ReactNode;
+	children: (state: state) => React.ReactNode;
 };
 
 const CTAButton = (props: Props) => {
@@ -23,7 +19,7 @@ const CTAButton = (props: Props) => {
 
 	return (
 		<button {...props} onClick={props.onClick}>
-			{props.children({ state: 'available' })}
+			{props.children('available')}
 		</button>
 	);
 };
