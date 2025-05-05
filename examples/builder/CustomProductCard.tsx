@@ -40,7 +40,7 @@ const Component = (props: Props) => {
 						}}
 					</NavProductVariantPicker>
 					<NavProductQuantityPicker>
-						{(current) => <input type="number" min={1} max={10} value={current.value} onChange={(e) => current.onChange(parseInt(e.target.value))} />}
+						{(value, onChange) => <input type="number" min={1} max={10} value={value} onChange={(e) => onChange(parseInt(e.target.value))} />}
 					</NavProductQuantityPicker>
 					<NavBuyButton action='add-to-cart' product={props.data}>
 						{({ state }) => {

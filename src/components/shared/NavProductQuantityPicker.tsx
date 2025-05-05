@@ -1,13 +1,8 @@
 import React from "react";
 import SharedComponents from "../SharedComponents";
 
-type current = {
-	value: number;
-	onChange: (value: number) => void;
-}
-
 export type Props = {
-	children: (current: current) => React.ReactNode;
+	children: (value: number, onChange: (value: number) => void) => React.ReactNode;
 };
 
 const QuantityPicker = (props: Props) => {
