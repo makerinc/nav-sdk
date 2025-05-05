@@ -54,7 +54,10 @@ const Component = (props: Props) => {
 								case 'unavailable':
 									<button disabled={true}>Unavailable</button>
 									break;
-								case 'added-to-cart':
+								case 'loading':
+									<button disabled={true}>Adding to Cart...</button>
+									break;
+								case 'done':
 									<button disabled={true}>Added to Cart!</button>
 									break;
 							}
