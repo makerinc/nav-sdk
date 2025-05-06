@@ -61,6 +61,7 @@ type DataTypeProductVariant = {
 	link?: string;
 	brand?: string;
 	mpn?: string;
+	sku?: string;
 	tags?: string[];
 	metadata?: DataTypeProductMetadata;
 	currency?: string;
