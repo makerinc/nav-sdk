@@ -26,28 +26,32 @@ async function buildComponent(componentPath: string, config: Config): Promise<Co
 			platform: "browser",
 			external: ["react", "react-dom"],
 		});
+	} catch (error) {
+		console.log(chalk.red(`\u2717\ufe0e Failed to build ${componentPath} - ${error}`));
+		return;
+	}
+	console.log(chalk.green("\u2714\ufe0e Built " + componentOutFile));
 
 
+	try {
 		const componentCode = readFileSync(componentPath, "utf-8");
 		const metadataArray = reactDocParse(componentCode);
 		const metadata = metadataArray[0];
 
 		if (!metadata || !metadata.props) {
-			console.log(chalk.red("\u2717\ufe0e No props found for the component " + componentPath));
-			return;
+			throw new Error("No props found");
 		}
 
 		writeFileSync(reactdocOutFile, JSON.stringify(metadata, null, 2));
-
-		console.log(chalk.green("\u2714\ufe0e Built " + componentOutFile));
-		return {
-			jsPath: componentOutFile,
-			docPath: reactdocOutFile
-		};
+		console.log(chalk.green("\u2714\ufe0e Doc generated " + componentOutFile));
 	} catch (error) {
-		console.log(chalk.red(`\u2717\ufe0e Failed to build ${componentPath} - ${error}`));
-		return;
+		console.warn(chalk.yellow(`\u2717\ufe0e Skipping doc generation for ${componentPath} due to an error - ${error}`));
 	}
+
+	return {
+		jsPath: componentOutFile,
+		docPath: reactdocOutFile
+	};
 }
 
 function getBuildInfo(config: Config): BuildInfo {

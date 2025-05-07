@@ -1,6 +1,6 @@
 {
   "name": "@makerinc/nav-sdk",
-  "version": "1.5.106",
+  "version": "1.5.108",
   "type": "module",
   "main": "dist/src/index",
   "types": "dist/src/index",
