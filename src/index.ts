@@ -8,6 +8,7 @@ export { default as NavBuyButton } from './components/shared/NavBuyButton'
 export { default as NavProductForm } from './components/shared/NavProductForm'
 export { default as NavProductVariantPicker } from './components/shared/NavProductVariantPicker'
 export { default as NavProductQuantityPicker } from './components/shared/NavProductQuantityPicker'
+export { default as NavProductInfo } from './components/shared/NavProductInfo'
 
 // For showside
 export { Renderer } from './components/Renderer'
