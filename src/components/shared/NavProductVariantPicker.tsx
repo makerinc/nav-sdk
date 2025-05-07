@@ -18,7 +18,8 @@ type optionGroup = {
 	initialValue: string,
 	options: Array<option>,
 	hidden: boolean,
-	required: boolean
+	required: boolean,
+	error?: string
 }
 
 export type Props = {

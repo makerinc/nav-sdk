@@ -1,11 +1,12 @@
 import React from '../react';
+import { ProductLinkProps, CategoryLinkProps } from './shared/NavLink';
 import { Props as ImageProps } from './shared/NavImage';
 import { Props as VideoProps } from './shared/NavVideo';
 import { Props as BuyButtonProps } from './shared/NavBuyButton';
 import { Props as ProductFormProps } from './shared/NavProductForm';
 import { Props as ProductVariantPickerProps } from './shared/NavProductVariantPicker';
 import { Props as ProductQuantityPicker } from './shared/NavProductQuantityPicker';
-import { ProductLinkProps, CategoryLinkProps } from './shared/NavLink';
+import { Props as ProductInfoProps } from './shared/NavProductInfo';
 
 export type ContextType = {
 	renderImage: ((props: ImageProps) => React.JSX.Element) | undefined;
@@ -16,6 +17,7 @@ export type ContextType = {
 	renderProductForm: ((props: ProductFormProps) => React.JSX.Element) | undefined;
 	renderProductVariantPicker: ((props: ProductVariantPickerProps) => React.JSX.Element) | undefined;
 	renderProductQuantityPicker: ((props: ProductQuantityPicker) => React.JSX.Element) | undefined;
+	renderProductInfo: ((props: ProductInfoProps) => React.JSX.Element) | undefined;
 };
 
 window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__ = window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__ || React.createContext<ContextType>({
@@ -27,6 +29,7 @@ window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__ = window.__MAKER_NAV_SHARED_COMPO
 	renderProductForm: undefined,
 	renderProductVariantPicker: undefined,
 	renderProductQuantityPicker: undefined,
+	renderProductInfo: undefined,
 });
 
 const Context = window.__MAKER_NAV_SHARED_COMPONENTS_CONTEXT__;
