@@ -10,11 +10,11 @@ export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	children: (state: state) => React.ReactNode;
 };
 
-const CTAButton = (props: Props) => {
-	let { renderBuyButton } = SharedComponents.useContext();
+const BuyButton = (props: Props) => {
+	let { renderProductBuyButton } = SharedComponents.useContext();
 
-	if (typeof renderBuyButton === 'function') {
-		return renderBuyButton(props);
+	if (typeof renderProductBuyButton === 'function') {
+		return renderProductBuyButton(props);
 	}
 
 	return (
@@ -24,4 +24,4 @@ const CTAButton = (props: Props) => {
 	);
 };
 
-export default CTAButton;
+export default BuyButton;
