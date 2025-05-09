@@ -1,7 +1,7 @@
 import { DataType } from "../../index"
 import SharedComponents from "../SharedComponents";
 
-type state = 'active' | 'loading' | 'inactive' | 'disabled';
+type state = 'toggled-on' | 'loading' | 'toggled-off' | 'disabled';
 
 export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	product: DataType.Product,
@@ -17,7 +17,7 @@ const FavoriteButton = (props: Props) => {
 
 	return (
 		<button {...props} onClick={props.onClick}>
-			{props.children('inactive')}
+			{props.children('toggled-off')}
 		</button>
 	);
 };
