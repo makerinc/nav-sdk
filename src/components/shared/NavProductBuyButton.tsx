@@ -1,4 +1,3 @@
-import { DataType } from "../../index"
 import SharedComponents from "../SharedComponents";
 
 type action = 'add-to-cart';
@@ -6,7 +5,6 @@ type state = 'available' | 'loading' | 'done' | 'out-of-stock' | 'unavailable';
 
 export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	action: action,
-	product: DataType.Product,
 	children: (state: state) => React.ReactNode;
 };
 

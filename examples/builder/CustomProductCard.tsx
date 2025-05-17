@@ -1,4 +1,4 @@
-import { DataType, registry, NavImage, NavLink, NavBuyButton, NavProductForm, NavProductVariantPicker, NavProductQuantityPicker } from '../../src/index';
+import { DataType, registry, NavImage, NavLink, NavProductBuyButton, NavProductForm, NavProductVariantPicker, NavProductQuantityPicker } from '../../src/index';
 import React from '../../src/react';
 
 type Props = {
@@ -42,7 +42,7 @@ const Component = (props: Props) => {
 					<NavProductQuantityPicker>
 						{(value, onChange) => <input type="number" min={1} max={10} value={value} onChange={(e) => onChange(parseInt(e.target.value))} />}
 					</NavProductQuantityPicker>
-					<NavBuyButton action='add-to-cart' product={props.data}>
+					<NavProductBuyButton action='add-to-cart'>
 						{(state) => {
 							switch (state) {
 								case 'available':
@@ -62,7 +62,7 @@ const Component = (props: Props) => {
 									break;
 							}
 						}}
-					</NavBuyButton>
+					</NavProductBuyButton>
 				</NavProductForm>
 			</div>
 		</NavLink>
